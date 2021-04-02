@@ -12,8 +12,8 @@ function nuaDaily() {
 
         <View style={styles.item}>
             <Image
-                style={styles.tinyLogo}
-                source={{ uri: "https://reactjs.org/logo-og.png" }}
+                style={{width: 210, height: 200}}
+                source={{ uri: "imgsrc.hubblesite.org/hvi/uploads/story/thumbnail/1394/low_STScI-H-p2105a-t-400x400.png" }}
             />
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.name}>{name}</Text>

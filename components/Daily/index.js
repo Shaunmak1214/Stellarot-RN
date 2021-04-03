@@ -1,34 +1,40 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {View, Text, FlatList, Image, ImageBackground, ScrollView, SafeAreaView} from 'react-native';
-import styles from './style';
+import {View, Text, FlatList, Image, ImageBackground, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import moment from "moment";
+import * as Font from 'expo-font';
+import { useFonts } from 'expo-font';
+import styles from './style';
+import Dot from '../../assets/images/dot.svg';
 
-const image = { uri: "https://www.teslarati.com/wp-content/uploads/2021/04/Starship-Boca-Chica-033121-NASASpaceflight-bocachicagal-SN15-progress-1-c.jpg" };
+const nuaDaily = ( props ) => {
 
-function nuaDaily() {
+    const [loaded] = useFonts({
+        Poppins: require('../../assets/fonts/Poppins-Regular.ttf'),
+        Quicksand: require('../../assets/fonts/Quicksand-Regular.ttf')
+    });
 
-    const Item = ({ title, author, publication, imageUrl }) => (
-        
+    const try1 = 'try';
+
+    const Item = ({ title, author, publication, imageUrl, summary }) => (
+        <TouchableOpacity onPress={()=>props.modalize(title, author, publication, imageUrl, summary)}>
         <View style={styles.item}>
             <Image
                 style={{width: 210, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
                 source={{ uri: `${imageUrl}` }}
             />
-            {/* <ImageBackground source={ image } style={{width: 210, height: 200}}>
-
-            </ImageBackground> */}
-            <Text style={styles.title}>{title}</Text>
+            <Text style={ [styles.title, {fontFamily: 'Poppins'}]}>{title}</Text>
             <View style={styles.bottomBar}>
                 <Text style={styles.author}>{author}</Text>
                 <Text style={styles.publication}>{moment(publication).format("MM-DD-YYYY")}</Text>
             </View>
         </View>
+        </TouchableOpacity>
     );
 
     const renderItem = ({ item }) => (
-        <Item title={item.title} author={item.newsSite} publication={item.publishedAt} imageUrl={item.imageUrl} />
+        <Item title={item.title} author={item.newsSite} publication={item.publishedAt} imageUrl={item.imageUrl} summary={item.summary} />
     );
 
     const [data, setData] = useState([])
@@ -47,12 +53,16 @@ function nuaDaily() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.PrimaryText}>NUA Daily</Text>
+            <View style={styles.containerTitle}>
+                <Dot style={styles.dot} />
+                <Text style={ [styles.PrimaryText , {fontFamily: 'Quicksand'}]}>NUA Daily</Text>
+            </View>
             <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
                 data={data}
                 renderItem={renderItem}
+                style={styles.flatList}
             />
         </View>
     )

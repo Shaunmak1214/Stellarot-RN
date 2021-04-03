@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   logo: {
-    width: 230,
-    height: 80,
+    width: 150,
+    height: 60,
     resizeMode: 'contain',
   },
   menu: {

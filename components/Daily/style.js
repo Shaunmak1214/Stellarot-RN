@@ -8,13 +8,22 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 150,
   },
+  containerTitle:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: -10
+  },
+  dot:{
+    marginRight: 10,
+    marginTop: -20
+  },
   PrimaryText:{
     fontSize: 25,
     marginBottom: 20
   },
-  scrollView: {
-    backgroundColor: 'pink',
-    marginHorizontal: 20,
+  flatList:{
+    padding: 20
   },
   scrollable:{
     flex: 1,
@@ -30,9 +39,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginHorizontal: 16,
     width: 250,
-    shadowOffset:{  width: 10,  height: 10,  },
+    /* shadowOffset:{  width: 10,  height: 10,  },
     shadowColor: 'black',
-    shadowOpacity: 1.0,
+    shadowOpacity: 1.0, */
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
     borderRadius: 8,
     position: "relative",
     justifyContent: "space-between"

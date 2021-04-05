@@ -2,14 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
 import { AppLoading } from 'expo'
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image,  TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, ScrollView, Image,  TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Modalize } from 'react-native-modalize';
-import Header from './components/Header';
-import NuaDaily from './components/Daily'
 import { Ionicons } from '@expo/vector-icons';
 import { render } from 'react-dom';
+
+import Header from './components/Header';
+import NuaDaily from './components/Daily';
+import Content from './components/Content';
+
 import HomeIcon from './assets/images/homenav.svg';
 import SearchIcon from './assets/images/searchnav.svg';
 import NotificationIcon from './assets/images/bellnav.svg';
@@ -24,6 +27,27 @@ const HomeStackScreen = () => {
   const [publication, setPublication] = useState([])
   const [imageUrl, setImageUrl] = useState([])
   const [summary, setSummary] = useState([])
+
+  const getData = () => {
+    return [ { title: title }, { author: author },{publication: publication}, { imageUrl: imageUrl },{ summary: summary } ]
+  }
+
+  const renderItem = (item) => (
+    <View style={{padding: 20}}>
+      <Image
+        style={{width: 350, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
+        source={{ uri: `${item.imageUrl}` }}
+      />
+      <Text style={styles.modalTitle}>{item.title}</Text>
+
+      <View style={styles.detailsBar}>
+        <Text style={styles.modalAuthor}>{item.author}</Text>
+        <Text style={styles.modalPublication}>{moment(item.publication).format("MM-DD-YYYY")}</Text>
+      </View>
+
+      <Text style={styles.modalSummary}>{item.summary}</Text>
+    </View>
+  )
 
   const modalizeRef = useRef(null);
   const onOpen = (title, author, publication, imageUrl, summary) => {
@@ -41,17 +65,12 @@ const HomeStackScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
-            <Header />
-            <NuaDaily modalize={onOpen} style={styles.nuadaily} />
-          {/* <NuaDaily style={styles.nuadaily1} />
-          <NuaDaily style={styles.nuadaily1} /> */}
+          <Header />
+          <NuaDaily modalize={onOpen} style={styles.nuadaily} />
+          <Content modalize={onOpen} />
         </View>
       </ScrollView>
     </SafeAreaView>
-
-{/*     <TouchableOpacity onPress={onOpen}>
-      <Text>Open the modal</Text>
-    </TouchableOpacity> */}
 
     <Modalize snapPoint={650} modalTopOffset={10} ref={modalizeRef} style={{ width: '100%',   alignItems: 'center', justifyContent: 'center', padding: 20 }}>
       <View style={{padding: 20}}>
@@ -70,8 +89,51 @@ const HomeStackScreen = () => {
       </View>
     </Modalize>
 
+    {/* <Modalize 
+      snapPoint={650} 
+      modalTopOffset={10} 
+      ref={modalizeRef} 
+      style={{ width: '100%',   alignItems: 'center', justifyContent: 'center', padding: 20 }}
+      flatListProps={{
+        data: getData(),
+        renderItem: renderItem,
+        showsVerticalScrollIndicator: false,
+      }}
+       /> */}
     </>
   )
+
+  // return(
+  //   <FlatList
+  //     LisHeaderComponent={
+  //     <>
+  //       <Header />
+  //     </>}
+  //     data={[
+  //       {
+  //       "id": "606a4f0b7d9b43001c18b826",
+  //       "title": "Russia continues discussions with China on lunar exploration cooperation",
+  //       "url": "https://spacenews.com/russia-continues-discussions-with-china-on-lunar-exploration-cooperation/",
+  //       "imageUrl": "https://spacenews.com/wp-content/uploads/2021/02/ILRS-robotic-render-unoosa-2017-2.jpg",
+  //       "newsSite": "SpaceNews",
+  //       "summary": "The Russian space agency Roscosmos anticipates additional negotiations with China at a conference in June, building upon an agreement on lunar exploration announced in February.",
+  //       "publishedAt": "2021-04-04T23:43:07.000Z",
+  //       "updatedAt": "2021-04-04T23:43:07.798Z",
+  //       "featured": false,
+  //       "launches": [],
+  //       "events": []
+  //       }
+  //       ]}
+  //     renderItem={
+  //       <>
+  //       <NuaDaily modalize={onOpen} style={styles.nuadaily} />
+  //       <Content modalize={onOpen} />
+  //       </>
+  //     }
+  //     ListFooterComponent={
+  //       <View><Text>Footer</Text></View>
+  //     }/>
+  // )
 }
 
 const NotificationScreen = () => {
@@ -195,5 +257,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 18,
     padding: 5
+  },
+  tryText:{
+    position: 'absolute',
+    fontSize: 18,
+    bottom: 60
   }
 });

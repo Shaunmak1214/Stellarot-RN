@@ -2,166 +2,46 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
 import { AppLoading } from 'expo'
-import { StyleSheet, Text, View, FlatList, SafeAreaView, ScrollView, Image,  TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Modalize } from 'react-native-modalize';
-import { Ionicons } from '@expo/vector-icons';
-import { render } from 'react-dom';
-
-import Header from './components/Header';
-import NuaDaily from './components/Daily';
-import Content from './components/Content';
-
+import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeIcon from './assets/images/homenav.svg';
 import SearchIcon from './assets/images/searchnav.svg';
 import NotificationIcon from './assets/images/bellnav.svg';
 import ProfileIcon from './assets/images/profilenav.svg';
+import { HomeScreen, DetailsScreen, NotificationScreen, SearchScreen, ProfileScreen } from './screens'
 
-import moment from "moment";
+const HomeStack = createStackNavigator();
+const SearchStack = createStackNavigator();
+const NotificationStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 
-const HomeStackScreen = () => {
+const HomeStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="Home" component={HomeScreen} />
+    <HomeStack.Screen name="Details" component={DetailsScreen} />
+  </HomeStack.Navigator>
+)
 
-  const [title, setTitle] = useState([])
-  const [author, setAuthor] = useState([])
-  const [publication, setPublication] = useState([])
-  const [imageUrl, setImageUrl] = useState([])
-  const [summary, setSummary] = useState([])
+const SearchStackScreen = () => (
+  <SearchStack.Navigator>
+    <SearchStack.Screen name="Search" component={SearchScreen} />
+  </SearchStack.Navigator>
+)
 
-  const getData = () => {
-    return [ { title: title }, { author: author },{publication: publication}, { imageUrl: imageUrl },{ summary: summary } ]
-  }
+const NotificationStackScreen = () => (
+  <NotificationStack.Navigator>
+    <NotificationStack.Screen name="Notification" component={NotificationScreen} />
+  </NotificationStack.Navigator>
+)
 
-  const renderItem = (item) => (
-    <View style={{padding: 20}}>
-      <Image
-        style={{width: 350, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
-        source={{ uri: `${item.imageUrl}` }}
-      />
-      <Text style={styles.modalTitle}>{item.title}</Text>
-
-      <View style={styles.detailsBar}>
-        <Text style={styles.modalAuthor}>{item.author}</Text>
-        <Text style={styles.modalPublication}>{moment(item.publication).format("MM-DD-YYYY")}</Text>
-      </View>
-
-      <Text style={styles.modalSummary}>{item.summary}</Text>
-    </View>
-  )
-
-  const modalizeRef = useRef(null);
-  const onOpen = (title, author, publication, imageUrl, summary) => {
-    modalizeRef.current?.open();
-    setTitle(title)
-    setAuthor(author)
-    setPublication(publication)
-    setImageUrl(imageUrl)
-    setSummary(summary)
-  };
-
-  return (
-    <>
-
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.container}>
-          <Header />
-          <NuaDaily modalize={onOpen} style={styles.nuadaily} />
-          <Content modalize={onOpen} />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-
-    <Modalize snapPoint={650} modalTopOffset={10} ref={modalizeRef} style={{ width: '100%',   alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-      <View style={{padding: 20}}>
-        <Image
-          style={{width: 350, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
-          source={{ uri: `${imageUrl}` }}
-        />
-        <Text style={styles.modalTitle}>{title}</Text>
-
-        <View style={styles.detailsBar}>
-          <Text style={styles.modalAuthor}>{author}</Text>
-          <Text style={styles.modalPublication}>{moment(publication).format("MM-DD-YYYY")}</Text>
-        </View>
-
-        <Text style={styles.modalSummary}>{summary}</Text>
-      </View>
-    </Modalize>
-
-    {/* <Modalize 
-      snapPoint={650} 
-      modalTopOffset={10} 
-      ref={modalizeRef} 
-      style={{ width: '100%',   alignItems: 'center', justifyContent: 'center', padding: 20 }}
-      flatListProps={{
-        data: getData(),
-        renderItem: renderItem,
-        showsVerticalScrollIndicator: false,
-      }}
-       /> */}
-    </>
-  )
-
-  // return(
-  //   <FlatList
-  //     LisHeaderComponent={
-  //     <>
-  //       <Header />
-  //     </>}
-  //     data={[
-  //       {
-  //       "id": "606a4f0b7d9b43001c18b826",
-  //       "title": "Russia continues discussions with China on lunar exploration cooperation",
-  //       "url": "https://spacenews.com/russia-continues-discussions-with-china-on-lunar-exploration-cooperation/",
-  //       "imageUrl": "https://spacenews.com/wp-content/uploads/2021/02/ILRS-robotic-render-unoosa-2017-2.jpg",
-  //       "newsSite": "SpaceNews",
-  //       "summary": "The Russian space agency Roscosmos anticipates additional negotiations with China at a conference in June, building upon an agreement on lunar exploration announced in February.",
-  //       "publishedAt": "2021-04-04T23:43:07.000Z",
-  //       "updatedAt": "2021-04-04T23:43:07.798Z",
-  //       "featured": false,
-  //       "launches": [],
-  //       "events": []
-  //       }
-  //       ]}
-  //     renderItem={
-  //       <>
-  //       <NuaDaily modalize={onOpen} style={styles.nuadaily} />
-  //       <Content modalize={onOpen} />
-  //       </>
-  //     }
-  //     ListFooterComponent={
-  //       <View><Text>Footer</Text></View>
-  //     }/>
-  // )
-}
-
-const NotificationScreen = () => {
-  return(
-    <View style={styles.container}>
-      <Header />
-      <Text style={styles.tryText}>Notification Screen</Text>
-    </View>
-  )
-}
-
-const SearchScreen = () => {
-  return(
-    <View style={styles.container}>
-      <Header />
-      <Text style={styles.tryText}>Search Screen</Text>
-    </View>
-  )
-}
-
-const ProfileScreen = () => {
-  return(
-    <View style={styles.container}>
-      <Header />
-      <Text style={styles.tryText}>Profile Screen</Text>
-    </View>
-  )
-}
+const ProfileStackScreen = () => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+  </ProfileStack.Navigator>
+)
 
 const Tab = createBottomTabNavigator();
 
@@ -179,7 +59,7 @@ export default function App() {
         }
         showLabel = {false}
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: () => {
             if (route.name === 'Home') {
               return <HomeIcon />
             } else if (route.name === 'Search') {
@@ -197,15 +77,15 @@ export default function App() {
           HomeStackScreen
         } />
         <Tab.Screen name="Search" component={
-          SearchScreen
+          SearchStackScreen
         } />
         <Tab.Screen name="Notification" 
           options={{tabBarBadge: 999,}}
           component={
-          NotificationScreen
+          NotificationStackScreen
         } />
         <Tab.Screen name="Profile" component={
-          ProfileScreen
+          ProfileStackScreen
         } />
       </Tab.Navigator>
     </NavigationContainer>
@@ -262,5 +142,47 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontSize: 18,
     bottom: 60
+  },
+  //for testing purposes
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
   }
 });

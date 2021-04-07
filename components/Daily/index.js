@@ -3,17 +3,39 @@ import { useState, useEffect } from 'react';
 import {View, Text, FlatList, Image, ImageBackground, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import moment from "moment";
-import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
-import { useFonts } from 'expo-font';
 import styles from './style';
 import Dot from '../../assets/images/dot.svg';
 
+import {
+    useFonts,
+    Quicksand_300Light,
+    Quicksand_400Regular,
+    Quicksand_500Medium,
+    Quicksand_600SemiBold,
+    Quicksand_700Bold,
+  } from '@expo-google-fonts/quicksand';
+
 const nuaDaily = ( props ) => {
 
-    const [loaded] = useFonts({
-        Poppins: require('../../assets/fonts/Poppins-Regular.ttf'),
-        Quicksand: require('../../assets/fonts/Quicksand-Regular.ttf')
+    const [data, setData] = useState([])
+    useEffect(() => {
+
+        axios.get(`https://stellarot.herokuapp.com/v1/snanews/0/10`)
+        .then((res) => {
+            setData(res.data)
+        })
+        .catch((err) => {
+            console.log(`error calling API ${err}`)
+        })
+    
+    },[])
+
+    let [fontsLoaded] = useFonts({
+        Quicksand_300Light,
+        Quicksand_400Regular,
+        Quicksand_500Medium,
+        Quicksand_600SemiBold,
+        Quicksand_700Bold,
     });
 
     const Item = ({ title, author, publication, imageUrl, summary }) => (
@@ -36,27 +58,15 @@ const nuaDaily = ( props ) => {
 
     const renderItem = ({ item }) => {
 
-        if(moment(item.publication).isSame(moment(), 'day')){
-            return <Item title={item.title} author={item.newsSite} publication={item.publishedAt} imageUrl={item.imageUrl} summary={item.summary} />
+        if(moment(item.publication).diff(moment(), 'days') < 1){
+            console.log('in this day')
+            return (<Item title={item.title} author={item.newsSite} publication={item.publishedAt} imageUrl={item.imageUrl} summary={item.summary} />)
         }else{
+            console.log('nope')
             // return <Item title={item.title} author={item.newsSite} publication={item.publishedAt} imageUrl={item.imageUrl} summary={item.summary} />
         }
         
     };
-
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-
-        axios.get('https://space-bot-2021.herokuapp.com/v1/snanews/0/10')
-        .then((res) => {
-            setData(res.data)
-        })
-        .catch((err) => {
-            console.log(`error calling API ${err}`)
-        })
-
-    },[])
 
     // if (!loaded) {
     //     return <AppLoading />;
@@ -65,12 +75,13 @@ const nuaDaily = ( props ) => {
             <View style={styles.container}>
                 <View style={styles.containerTitle}>
                     <Dot style={styles.dot} />
-                    <Text style={ [styles.PrimaryText , {fontFamily: 'Quicksand'}]}>NUA Daily</Text>
+                    <Text style={ [styles.PrimaryText , {fontFamily: 'Inter_900Black'}]}>NUA Daily</Text>
                 </View>
                 <FlatList
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={data}
+                    keyExtractor={item => item.id}
                     renderItem={renderItem}
                     style={styles.flatList}
                 />

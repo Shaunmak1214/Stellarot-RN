@@ -91,7 +91,7 @@ export default function content( props ) {
 
         useEffect(() => {
 
-            axios.get('https://space-bot-2021.herokuapp.com/v1/snanews/10/20')
+            axios.get(`https://stellarot.herokuapp.com/v1/snanews/10/20`)
             .then((res) => {
                 setData(res.data)
             })
@@ -105,6 +105,7 @@ export default function content( props ) {
             <FlatList
                 data={data}
                 renderItem={renderItem}
+                keyExtractor={item => item.id}
                 contentContainerStyle={styles.flatList}
             />
         )   

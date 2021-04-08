@@ -7,40 +7,73 @@ import * as Font from 'expo-font';
 import { useFonts } from 'expo-font';
 import styles from './style';
 import { set } from 'react-native-reanimated';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 export default function content( props ) {
 
-    const [allTab, setAllTab] = useState(false)
-    const [spaceXTab, setSpaceXTab] = useState(false)
-    const [NasaTab, setNasaTab] = useState(false)
-    const [otherTab, setOtherTab] = useState(false)
+    const TopTabs = createMaterialTopTabNavigator();
 
-    const setAll = () => {
-        setAllTab(true)
-        setSpaceXTab(false)
-        setNasaTab(false)
-        setOtherTab(false)
-    }
-    const setSpaceX = () => {
-        setAllTab(false)
-        setSpaceXTab(true)
-        setNasaTab(false)
-        setOtherTab(false)
-    }
-    const setNasa = () => {
-        setAllTab(false)
-        setSpaceXTab(false)
-        setNasaTab(true)
-        setOtherTab(false)
-    }
-    const setOther = () => {
-        setAllTab(false)
-        setSpaceXTab(false)
-        setNasaTab(false)
-        setOtherTab(true)
+    const TopBar = () => {
+        return(
+            <TopTabs.Navigator>
+            <TopTabs.Screen
+                name={"Screen1"}
+                component={() => {
+                    return(
+                        <View>
+                            <Text>Screen 1</Text>
+                        </View>
+                    )
+                }}
+                options={{ tabBarLabel: "Screen 1"}}
+            />
+            <TopTabs.Screen
+                name={"Screen2"}
+                component={() => {
+                    return(
+                        <View>
+                            <Text>Screen 2</Text>
+                        </View>
+                    )
+                }}
+                options={{ tabBarLabel: "Screen 2"}}
+            />
+            </TopTabs.Navigator>
+        )
     }
 
     const Sticky = () => {
+
+        const [allTab, setAllTab] = useState(false)
+        const [spaceXTab, setSpaceXTab] = useState(false)
+        const [NasaTab, setNasaTab] = useState(false)
+        const [otherTab, setOtherTab] = useState(false)
+    
+        const setAll = () => {
+            setAllTab(true)
+            setSpaceXTab(false)
+            setNasaTab(false)
+            setOtherTab(false)
+        }
+        const setSpaceX = () => {
+            setAllTab(false)
+            setSpaceXTab(true)
+            setNasaTab(false)
+            setOtherTab(false)
+        }
+        const setNasa = () => {
+            setAllTab(false)
+            setSpaceXTab(false)
+            setNasaTab(true)
+            setOtherTab(false)
+        }
+        const setOther = () => {
+            setAllTab(false)
+            setSpaceXTab(false)
+            setNasaTab(false)
+            setOtherTab(true)
+        }
+
         return(
             <View style={styles.sticky}>
                 <TouchableOpacity 
@@ -78,8 +111,10 @@ export default function content( props ) {
                     />
                     <View style={styles.detailsContainer}>
                         <Text style={ [styles.title, {fontFamily: 'Poppins'}]}>{title}</Text>
-                        <Text style={styles.author}>{author}</Text>
-                        <Text style={styles.publication}>{moment(publication).format("MM-DD-YYYY")}</Text>
+                        <View style={ styles.bottomInfo }>
+                            <Text style={styles.author}>{author}</Text>
+                            <Text style={styles.publication}>{moment(publication).format("MM-DD-YYYY")}</Text>
+                        </View>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -114,6 +149,7 @@ export default function content( props ) {
     return (
         <>
             <Sticky />
+            {/* <TopBar /> */}
             <NewsList style={styles.newListContainer}/>
         </>
     )

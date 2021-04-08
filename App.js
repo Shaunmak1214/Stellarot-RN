@@ -13,6 +13,8 @@ import NotificationIcon from './assets/images/bellnav.svg';
 import ProfileIcon from './assets/images/profilenav.svg';
 import { HomeScreen, DetailsScreen, NotificationScreen, SearchScreen, ProfileScreen } from './screens'
 
+import * as Font from 'expo-font';
+
 const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();
 const NotificationStack = createStackNavigator();
@@ -20,7 +22,7 @@ const ProfileStack = createStackNavigator();
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={HomeScreen} />
+    <HomeStack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
     <HomeStack.Screen name="Details" component={DetailsScreen} />
   </HomeStack.Navigator>
 )
@@ -46,6 +48,24 @@ const ProfileStackScreen = () => (
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  const [loaded, setLoaded] = useState(false);
+  const fonts = {
+    'Quicksand': require('./assets/fonts/Quicksand-Regular.ttf'),
+  }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await Font.loadAsync(fonts);
+        setLoaded(true);
+      } catch (err) {
+        console.log(err);
+      }
+
+    })();
+  }), [fonts];
+
   return (
     <NavigationContainer>
       <Tab.Navigator

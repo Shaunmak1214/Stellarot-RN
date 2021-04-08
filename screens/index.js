@@ -7,6 +7,7 @@ import moment from "moment";
 import Header from '../components/Header';
 import NuaDaily from '../components/Daily';
 import Content from '../components/Content';
+import Potd from '../components/Potd';
 /* import { ScreenContainer } from 'react-native-screens'; */
 
 const ScreenContainer = ({ children }) => (
@@ -28,6 +29,7 @@ export const HomeScreen = ({ navigation }) => {
         <View style={styles.container}>
           <Header />
           <NuaDaily modalize={onOpen} style={styles.nuadaily} />
+          <Potd />
           <Content modalize={onOpen} />
         </View>
       </ScrollView>
@@ -62,19 +64,20 @@ export const DetailsScreen = ({ route }) => {
   let data = route.params
 
   return(
-  <View style={{padding: 20}}>
+  <View style={{padding: 0, position: 'relative'}}>
     <Image
-      style={{width: 350, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
+      style={{position: 'absolute', top: 0, width: '100%', height: 250, zIndex: 1000}}
       source={{ uri: `${data.imageUrl}` }}
     />
-    <Text style={styles.modalTitle}>{data.title}</Text>
+    <View style={{position: 'absolute', top: 225, paddingTop: 5, paddingHorizontal: 20, borderRadius: 15, zIndex: 1000, backgroundColor: '#F6F2F2'}}>
+      <Text style={styles.modalTitle}>{data.title}</Text>
+      <View style={styles.detailsBar}>
+        <Text style={styles.modalAuthor}>{data.author}</Text>
+        <Text style={styles.modalPublication}>{moment(data.publication).format("MM-DD-YYYY")}</Text>
+      </View>
 
-    <View style={styles.detailsBar}>
-      <Text style={styles.modalAuthor}>{data.author}</Text>
-      <Text style={styles.modalPublication}>{moment(data.publication).format("MM-DD-YYYY")}</Text>
+      <Text style={styles.modalSummary}>{data.summary}</Text>
     </View>
-
-    <Text style={styles.modalSummary}>{data.summary}</Text>
   </View>
   )
 }

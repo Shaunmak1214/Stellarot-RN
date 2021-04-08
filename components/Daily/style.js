@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   flatList:{
-    padding: 20
+    paddingVertical: 20,
   },
   scrollable:{
     flex: 1,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginHorizontal: 16,
-    width: 250,
+    width: 300,
     /* shadowOffset:{  width: 10,  height: 10,  },
     shadowColor: 'black',
     shadowOpacity: 1.0, */
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     borderRadius: 8,
     position: "relative",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   tinyLogo: {
     width: 210,
@@ -78,6 +78,10 @@ const styles = StyleSheet.create({
   publication:{
     fontSize: 11,
     color:'#797979'
+  },
+  lottie: {
+    width: 150,
+    height: 150
   }
 });
 

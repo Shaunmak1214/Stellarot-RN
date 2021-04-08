@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         marginTop: 20,
         paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 12,
         marginLeft: 8,
         width: '95%',
         shadowColor: "#000",
@@ -65,12 +65,30 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         borderRadius: 8,
         position: "relative",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         alignItems: 'center'
     },
     detailsContainer: {
         width: '50%',
+        height: 'auto',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     },
+    bottomInfo: {
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    author: {
+        fontSize: 12,
+        fontWeight: '500',
+        color: '#797979',
+    },
+    publication: {
+        fontSize: 12,
+        fontWeight: '500',
+        color: '#797979',
+    }
 });
 
 export default styles;

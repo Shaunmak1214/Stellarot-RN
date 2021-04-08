@@ -5,24 +5,39 @@ import axios from 'axios';
 import moment from "moment";
 import styles from './style';
 import Dot from '../../assets/images/dot.svg';
+import AnimatedLoader from "react-native-animated-loader";
 
-import {
-    useFonts,
-    Quicksand_300Light,
-    Quicksand_400Regular,
-    Quicksand_500Medium,
-    Quicksand_600SemiBold,
-    Quicksand_700Bold,
-  } from '@expo-google-fonts/quicksand';
+import * as Font from 'expo-font';
 
 const nuaDaily = ( props ) => {
 
+    const [fontLoaded, setFontLoaded] = useState(false);
+    const fonts = {
+      'Quicksand': require('../../assets/fonts/Quicksand-Regular.ttf'),
+      'Poppins': require('../../assets/fonts/Poppins-Regular.ttf')
+    }
+
+    useEffect(() => {
+        (async () => {
+            try {
+            await Font.loadAsync(fonts);
+            setFontLoaded(true);
+            console.log('fontloaded')
+            } catch (err) {
+            console.log(err);
+            }
+
+        })();
+    }), [fonts];
+
     const [data, setData] = useState([])
+    const [loaded, setLoad] = useState(false)
     useEffect(() => {
 
         axios.get(`https://stellarot.herokuapp.com/v1/snanews/0/10`)
         .then((res) => {
             setData(res.data)
+            setLoad(true)
         })
         .catch((err) => {
             console.log(`error calling API ${err}`)
@@ -30,20 +45,12 @@ const nuaDaily = ( props ) => {
     
     },[])
 
-    let [fontsLoaded] = useFonts({
-        Quicksand_300Light,
-        Quicksand_400Regular,
-        Quicksand_500Medium,
-        Quicksand_600SemiBold,
-        Quicksand_700Bold,
-    });
-
     const Item = ({ title, author, publication, imageUrl, summary }) => (
         
         <View style={styles.item}>
             <TouchableOpacity onPress={()=>props.modalize(title, author, publication, imageUrl, summary)}>
                 <Image
-                    style={{width: 210, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
+                    style={{width: 260, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
                     source={{ uri: `${imageUrl}` }}
                 />
                 <Text style={ [styles.title, {fontFamily: 'Poppins'}]}>{title}</Text>
@@ -68,14 +75,28 @@ const nuaDaily = ( props ) => {
         
     };
 
-    // if (!loaded) {
-    //     return <AppLoading />;
-    // } else {
+    const AppLoading  = () => {
+        return(
+            <AnimatedLoader
+                visible={true}
+                overlayColor="rgba(255,255,255,0.75)"
+                source={require("../../assets/loader/blackdot-loader.json")}
+                animationStyle={styles.lottie}
+                speed={1}
+            >
+            <Text>NUA fetching data</Text>
+            </AnimatedLoader>
+        )
+    }
+
+    if (!loaded) {
+        return <AppLoading />;
+    } else {
         return (
             <View style={styles.container}>
                 <View style={styles.containerTitle}>
                     <Dot style={styles.dot} />
-                    <Text style={ [styles.PrimaryText , {fontFamily: 'Inter_900Black'}]}>NUA Daily</Text>
+                    <Text style={ [styles.PrimaryText , {fontFamily: 'Quicksand'}]}>NUA Daily</Text>
                 </View>
                 <FlatList
                     showsHorizontalScrollIndicator={false}
@@ -87,7 +108,7 @@ const nuaDaily = ( props ) => {
                 />
             </View>
         )
-    // }
+    }
 }
 
 export default nuaDaily;

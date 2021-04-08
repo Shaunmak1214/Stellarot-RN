@@ -1,106 +1,159 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {View, Text, FlatList, Image, ImageBackground, ScrollView, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import moment from "moment";
-import * as Font from 'expo-font';
-import { useFonts } from 'expo-font';
 import styles from './style';
-import { set } from 'react-native-reanimated';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 export default function content( props ) {
 
-    const TopTabs = createMaterialTopTabNavigator();
+    const [data, setData] = useState([])
+    const [spaceXData, setSpaceXData] = useState([])
+    const [nasaData, setNasaData] = useState([])
+    const [otherData, setOtherData] = useState([])
+    var spaceXKeywords = ['SpaceX', 'spacex', 'Falcon 9', 'Starlink', 'Star Link', 'Elon Musk', "ElonMusk", "Elon"]
 
-    const TopBar = () => {
-        return(
-            <TopTabs.Navigator>
-            <TopTabs.Screen
-                name={"Screen1"}
-                component={() => {
-                    return(
-                        <View>
-                            <Text>Screen 1</Text>
-                        </View>
-                    )
-                }}
-                options={{ tabBarLabel: "Screen 1"}}
-            />
-            <TopTabs.Screen
-                name={"Screen2"}
-                component={() => {
-                    return(
-                        <View>
-                            <Text>Screen 2</Text>
-                        </View>
-                    )
-                }}
-                options={{ tabBarLabel: "Screen 2"}}
-            />
-            </TopTabs.Navigator>
-        )
-    }
+    useEffect(() => {
 
-    const Sticky = () => {
+        axios.get(`https://stellarot.herokuapp.com/v1/snanews/10/20`)
+        .then((res) => {
+            setData(res.data)
+            var spaceXArr = []
+            var NasaArr = []
+            var OtherArr = []
+            res.data.forEach(element => {
+                if(element.title.includes('SpaceX') || element.title.includes('Starlink') || element.summary.includes('SpaceX') || element.summary.includes('Starlink')){
+                    spaceXArr.push(element)
+                }else if(element.title.includes('NASA') || element.summary.includes('NASA') || element.newsSite.includes('NASA')){
+                    NasaArr.push(element)
+                }else{
+                    OtherArr.push(element)
+                }
+                
+            });
+            setSpaceXData(spaceXArr)
+            setNasaData(NasaArr)
+            setOtherData(OtherArr)
+        })
+        .catch((err) => {
+            console.log(`error calling API ${err}`)
+        })
 
-        const [allTab, setAllTab] = useState(false)
-        const [spaceXTab, setSpaceXTab] = useState(false)
-        const [NasaTab, setNasaTab] = useState(false)
-        const [otherTab, setOtherTab] = useState(false)
+    },[])
+
+    // const Sticky = () => {
+
+    //     const [allTab, setAllTab] = useState(false)
+    //     const [spaceXTab, setSpaceXTab] = useState(false)
+    //     const [NasaTab, setNasaTab] = useState(false)
+    //     const [otherTab, setOtherTab] = useState(false)
     
-        const setAll = () => {
-            setAllTab(true)
-            setSpaceXTab(false)
-            setNasaTab(false)
-            setOtherTab(false)
-        }
-        const setSpaceX = () => {
-            setAllTab(false)
-            setSpaceXTab(true)
-            setNasaTab(false)
-            setOtherTab(false)
-        }
-        const setNasa = () => {
-            setAllTab(false)
-            setSpaceXTab(false)
-            setNasaTab(true)
-            setOtherTab(false)
-        }
-        const setOther = () => {
-            setAllTab(false)
-            setSpaceXTab(false)
-            setNasaTab(false)
-            setOtherTab(true)
-        }
+    //     const setAll = () => {
+    //         setAllTab(true)
+    //         setSpaceXTab(false)
+    //         setNasaTab(false)
+    //         setOtherTab(false)
+    //     }
+    //     const setSpaceX = () => {
+    //         setAllTab(false)
+    //         setSpaceXTab(true)
+    //         setNasaTab(false)
+    //         setOtherTab(false)
+    //     }
+    //     const setNasa = () => {
+    //         setAllTab(false)
+    //         setSpaceXTab(false)
+    //         setNasaTab(true)
+    //         setOtherTab(false)
+    //     }
+    //     const setOther = () => {
+    //         setAllTab(false)
+    //         setSpaceXTab(false)
+    //         setNasaTab(false)
+    //         setOtherTab(true)
+    //     }
 
-        return(
-            <View style={styles.sticky}>
-                <TouchableOpacity 
-                    onPress={ setAll }
-                    style={ allTab ? styles.optionSelected : styles.option }
-                >
-                    <Text style={styles.optionText}>All</Text>
-                </TouchableOpacity>
+    //     return(
+    //         <View style={styles.sticky}>
+    //             <TouchableOpacity 
+    //                 onPress={ setAll }
+    //                 style={ allTab ? styles.optionSelected : styles.option }
+    //             >
+    //                 <Text style={styles.optionText}>All</Text>
+    //             </TouchableOpacity>
 
-                <TouchableOpacity onPress={ setSpaceX } style={[styles.option , spaceXTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
-                    <Text style={styles.optionText}>Space X</Text>
-                </TouchableOpacity>
+    //             <TouchableOpacity onPress={ setSpaceX } style={[styles.option , spaceXTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
+    //                 <Text style={styles.optionText}>Space X</Text>
+    //             </TouchableOpacity>
 
-                <TouchableOpacity onPress={ setNasa } style={[styles.option , NasaTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
-                    <Text style={styles.optionText}>Nasa</Text>
-                </TouchableOpacity>
+    //             <TouchableOpacity onPress={ setNasa } style={[styles.option , NasaTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
+    //                 <Text style={styles.optionText}>Nasa</Text>
+    //             </TouchableOpacity>
 
-                <TouchableOpacity onPress={ setOther } style={[styles.option , otherTab? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
-                    <Text style={styles.optionText}>Others</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
+    //             <TouchableOpacity onPress={ setOther } style={[styles.option , otherTab? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
+    //                 <Text style={styles.optionText}>Others</Text>
+    //             </TouchableOpacity>
+    //         </View>
+    //     )
+    // }
 
     const NewsList = () => {
 
-        const [data, setData] = useState([])
+        const [allTab, setAllTab] = useState(true)
+        const [spaceXTab, setSpaceXTab] = useState(false)
+        const [NasaTab, setNasaTab] = useState(false)
+        const [otherTab, setOtherTab] = useState(false)
+
+        const Sticky = () => {
+        
+            const setAll = () => {
+                setAllTab(true)
+                setSpaceXTab(false)
+                setNasaTab(false)
+                setOtherTab(false)
+            }
+            const setSpaceX = () => {
+                setAllTab(false)
+                setSpaceXTab(true)
+                setNasaTab(false)
+                setOtherTab(false)
+            }
+            const setNasa = () => {
+                setAllTab(false)
+                setSpaceXTab(false)
+                setNasaTab(true)
+                setOtherTab(false)
+            }
+            const setOther = () => {
+                setAllTab(false)
+                setSpaceXTab(false)
+                setNasaTab(false)
+                setOtherTab(true)
+            }
+    
+            return(
+                <View style={styles.sticky}>
+                    <TouchableOpacity 
+                        onPress={ setAll }
+                        style={ allTab ? styles.optionSelected : styles.option }
+                    >
+                        <Text style={styles.optionText}>All</Text>
+                    </TouchableOpacity>
+    
+                    <TouchableOpacity onPress={ setSpaceX } style={[styles.option , spaceXTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
+                        <Text style={styles.optionText}>Space X</Text>
+                    </TouchableOpacity>
+    
+                    <TouchableOpacity onPress={ setNasa } style={[styles.option , NasaTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
+                        <Text style={styles.optionText}>Nasa</Text>
+                    </TouchableOpacity>
+    
+                    <TouchableOpacity onPress={ setOther } style={[styles.option , otherTab? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
+                        <Text style={styles.optionText}>Others</Text>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
 
         const Item = ({ title, author, publication, imageUrl, summary }) => (
             <TouchableOpacity onPress={()=>props.modalize(title, author, publication, imageUrl, summary)}>
@@ -124,31 +177,61 @@ export default function content( props ) {
             <Item style={styles.itemContainer} title={item.title} author={item.newsSite} publication={item.publishedAt} imageUrl={item.imageUrl} summary={item.summary} />
         );
 
-        useEffect(() => {
-
-            axios.get(`https://stellarot.herokuapp.com/v1/snanews/10/20`)
-            .then((res) => {
-                setData(res.data)
-            })
-            .catch((err) => {
-                console.log(`error calling API ${err}`)
-            })
-    
-        },[])
-
-        return(
-            <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.flatList}
-            />
-        )   
+        if(allTab){
+            return(
+                <>
+                    <Sticky />
+                    <FlatList
+                        data={data}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                        contentContainerStyle={styles.flatList}
+                    />
+                </>
+                ) 
+        }else if(spaceXTab){
+            return(
+                <>
+                <Sticky />
+                <FlatList
+                        data={spaceXData}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                        contentContainerStyle={styles.flatList}
+                    />
+                </>
+            )
+        }else if(NasaTab){
+            return(
+                <>
+                <Sticky />
+                <FlatList
+                        data={nasaData}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                        contentContainerStyle={styles.flatList}
+                    />
+                </>
+            )
+        }else if(otherTab){
+            return(
+                <>
+                <Sticky />
+                <FlatList
+                        data={otherData}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                        contentContainerStyle={styles.flatList}
+                    />
+                </>
+            )
+        }
+          
     }
 
     return (
         <>
-            <Sticky />
+            {/* <Sticky /> */}
             {/* <TopBar /> */}
             <NewsList style={styles.newListContainer}/>
         </>

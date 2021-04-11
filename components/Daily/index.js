@@ -6,6 +6,7 @@ import moment from "moment";
 import styles from './style';
 import Dot from '../../assets/images/dot.svg';
 import AnimatedLoader from "react-native-animated-loader";
+import ImageBlurLoading from 'react-native-image-blur-loading'
 
 import * as Font from 'expo-font';
 
@@ -20,11 +21,11 @@ const nuaDaily = ( props ) => {
     useEffect(() => {
         (async () => {
             try {
-            await Font.loadAsync(fonts);
-            setFontLoaded(true);
-            console.log('fontloaded')
+                await Font.loadAsync(fonts);
+                setFontLoaded(true);
+                console.log('fontloaded')
             } catch (err) {
-            console.log(err);
+                console.log(err);
             }
 
         })();
@@ -49,9 +50,11 @@ const nuaDaily = ( props ) => {
         
         <View style={styles.item}>
             <TouchableOpacity onPress={()=>props.modalize(title, author, publication, imageUrl, summary)}>
-                <Image
-                    style={{width: 260, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
+                <ImageBlurLoading
+                    withIndicator
+                    thumbnailSource={{ uri: 'https://picsum.photos/id/1/50/50' }}
                     source={{ uri: `${imageUrl}` }}
+                    style={{width: 260, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
                 />
                 <Text style={ [styles.title, {fontFamily: 'Poppins'}]}>{title}</Text>
                 <View style={styles.bottomBar}>
@@ -80,11 +83,10 @@ const nuaDaily = ( props ) => {
             <AnimatedLoader
                 visible={true}
                 overlayColor="rgba(255,255,255,0.75)"
-                source={require("../../assets/loader/blackdot-loader.json")}
+                source={require("../../assets/loader/black-spinner.json")}
                 animationStyle={styles.lottie}
                 speed={1}
             >
-            <Text>NUA fetching data</Text>
             </AnimatedLoader>
         )
     }

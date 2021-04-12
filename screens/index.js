@@ -1,24 +1,20 @@
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, } from 'react-native';
-import { Modalize } from 'react-native-modalize';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, Button, Alert } from 'react-native';
 import moment from "moment";
-
 import Header from '../components/Header';
 import NuaDaily from '../components/Daily';
 import Content from '../components/Content';
 import Potd from '../components/Potd';
-/* import { ScreenContainer } from 'react-native-screens'; */
+import { LoginButton, SignUpButton } from '../components/Buttons/authButtons';
 
-const ScreenContainer = ({ children }) => (
-  <View style={styles.container}>{children}</View>
-);
+// const ScreenContainer = ({ children }) => (
+//   <View style={styles.container}>{children}</View>
+// );
 
 export const HomeScreen = ({ navigation }) => {
 
-  const modalizeRef = useRef(null);
   const onOpen = (title, author, publication, imageUrl, summary) => {
-    // modalizeRef.current?.open();
     navigation.push('Details', { title: title, author: author, publication: publication, imageUrl: imageUrl, summary: summary })
   };
 
@@ -107,7 +103,66 @@ export const ProfileScreen = () => {
         <Text style={styles.tryText}>Profile Screen</Text>
       </View>
     )
+}
+
+export const AuthScreen = () => {
+
+  const loginClick = () => {
+    Alert.alert(
+      "Alert Title",
+      "My Alert Msg",
+      [
+        {
+          text: "Ask me later",
+          onPress: () => console.log("Ask me later pressed")
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
   }
+
+  const signUpClick = () => {
+    Alert.alert(
+      "Alert Title",
+      "My Alert Msg",
+      [
+        {
+          text: "Ask me later",
+          onPress: () => console.log("Ask me later pressed")
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
+  }
+
+  return(
+    <View style={styles.container}>
+      {/* <newsIcon /> */}
+      <Image
+        style={{ width: '100%', height: 300, zIndex: 1000}}        
+        source={require('../assets/images/news.png')}
+      />
+      <View style={styles.profileAuthView}>
+          <Text style={styles.profileHeadingText}>We talk about Space. </Text>
+          <Text style={styles.profileSecondaryText}>Join Us. </Text>
+      </View>
+      <View style={styles.authButtons}>
+        <LoginButton onPress={()=>{loginClick()}}/>
+        <SignUpButton onPress={()=>{signUpClick()}}/>
+      </View>
+    </View>
+  )
+}
 
   const styles = StyleSheet.create({
     container: {
@@ -201,5 +256,29 @@ export const ProfileScreen = () => {
     modalText: {
       marginBottom: 15,
       textAlign: "center"
+    },
+    profileAuthView:{
+      padding: 20,
+      display: "flex",
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: "center",
+    },
+    profileHeadingText: {
+      fontSize: 35,
+    },
+    profileSecondaryText:{
+      color: '#797979',
+      fontWeight: '500',
+      marginTop: 20,
+      fontSize: 20,
+    },
+    authButtons:{
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      width: '100%',
+      position: 'absolute',
+      bottom: 35
     }
   });

@@ -11,7 +11,7 @@ import HomeIcon from './assets/images/homenav.svg';
 import SearchIcon from './assets/images/searchnav.svg';
 import NotificationIcon from './assets/images/bellnav.svg';
 import ProfileIcon from './assets/images/profilenav.svg';
-import { HomeScreen, DetailsScreen, NotificationScreen, SearchScreen, ProfileScreen } from './screens'
+import { HomeScreen, DetailsScreen, NotificationScreen, SearchScreen, ProfileScreen, AuthScreen } from './screens'
 
 import * as Font from 'expo-font';
 
@@ -19,6 +19,7 @@ const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();
 const NotificationStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
@@ -41,7 +42,7 @@ const NotificationStackScreen = () => (
 
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+    <ProfileStack.Screen name="Profile" component={AuthScreen} />
   </ProfileStack.Navigator>
 )
 

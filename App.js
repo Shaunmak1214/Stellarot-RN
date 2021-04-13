@@ -1,7 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import { AppLoading } from 'expo'
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,7 +9,7 @@ import HomeIcon from './assets/images/homenav.svg';
 import SearchIcon from './assets/images/searchnav.svg';
 import NotificationIcon from './assets/images/bellnav.svg';
 import ProfileIcon from './assets/images/profilenav.svg';
-import { HomeScreen, DetailsScreen, NotificationScreen, SearchScreen, ProfileScreen, AuthScreen } from './screens'
+import { HomeScreen, DetailsScreen, NotificationScreen, SearchScreen, ProfileScreen, AuthScreen, LoginScreen, SignUpScreen } from './screens'
 
 import * as Font from 'expo-font';
 
@@ -42,7 +40,9 @@ const NotificationStackScreen = () => (
 
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={AuthScreen} />
+    <ProfileStack.Screen options={{headerShown: false}} name="Profile" component={AuthScreen} />
+    <ProfileStack.Screen options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
+    <ProfileStack.Screen options={{headerShown: false}} name="SignUpScreen" component={SignUpScreen} />
   </ProfileStack.Navigator>
 )
 

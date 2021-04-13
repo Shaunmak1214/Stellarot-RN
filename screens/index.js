@@ -1,12 +1,14 @@
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, Alert, TextInput } from 'react-native';
 import moment from "moment";
 import Header from '../components/Header';
 import NuaDaily from '../components/Daily';
 import Content from '../components/Content';
 import Potd from '../components/Potd';
-import { LoginButton, SignUpButton } from '../components/Buttons/authButtons';
+import { LoginButton, SignUpButton, GoogleButton, FacebookButton, LoginActionButton, SignUpActionButton } from '../components/Buttons/authButtons';
+
+import OuterSpaceIcon from '../assets/images/outer-space.svg';
 
 // const ScreenContainer = ({ children }) => (
 //   <View style={styles.container}>{children}</View>
@@ -105,62 +107,98 @@ export const ProfileScreen = () => {
     )
 }
 
-export const AuthScreen = () => {
+export const AuthScreen = ({ navigation }) => {
 
   const loginClick = () => {
-    Alert.alert(
-      "Alert Title",
-      "My Alert Msg",
-      [
-        {
-          text: "Ask me later",
-          onPress: () => console.log("Ask me later pressed")
-        },
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ]
-    );
+    navigation.push('LoginScreen')
   }
 
   const signUpClick = () => {
-    Alert.alert(
-      "Alert Title",
-      "My Alert Msg",
-      [
-        {
-          text: "Ask me later",
-          onPress: () => console.log("Ask me later pressed")
-        },
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ]
-    );
+    navigation.push('SignUpScreen')
   }
 
   return(
-    <View style={styles.container}>
-      {/* <newsIcon /> */}
-      <Image
-        style={{ width: '100%', height: 300, zIndex: 1000}}        
-        source={require('../assets/images/news.png')}
-      />
+    <View style={ [styles.container, { paddingTop: 60 }] }>
       <View style={styles.profileAuthView}>
           <Text style={styles.profileHeadingText}>We talk about Space. </Text>
-          <Text style={styles.profileSecondaryText}>Join Us. </Text>
+          <Text style={styles.profileSecondaryText}>Do not go gentle into that goodnight.  </Text>
+      </View>
+      <View style={{ width: '100%', height: 415, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
+        <OuterSpaceIcon style={{ width: 20, height: 20, zIndex: -1 }} />
       </View>
       <View style={styles.authButtons}>
         <LoginButton onPress={()=>{loginClick()}}/>
+        <View style={{ height: 20 }} ></View>
         <SignUpButton onPress={()=>{signUpClick()}}/>
       </View>
     </View>
+  )
+}
+
+export const LoginScreen = () => {
+  return(
+    <SafeAreaView>
+      <View style={{paddingHorizontal: 20, paddingVertical: 50, position: 'relative'}}>
+        <View style={{ padding: 20 }}>
+          <Text style={{ marginBottom: 5, fontSize: 35, color: '#000' }}>Log In to NUA</Text>
+          <Text style={{ marginBottom: 30, fontSize: 15, color: '#797979' }}>We missed you .</Text>
+          <TextInput style = {styles.input}
+            underlineColorAndroid = "transparent"
+            placeholder = "Email"
+            placeholderTextColor = "#080808"
+            autoCapitalize = "none"
+          />
+          <TextInput style = {styles.input}
+            secureTextEntry={true}
+            underlineColorAndroid = "transparent"
+            placeholder = "Password"
+            placeholderTextColor = "#080808"
+            autoCapitalize = "none"
+          />
+          <LoginActionButton />
+          <View style={{ marginVertical: 40, width: '100%', height: 1 ,borderBottomColor: '#C3BBBB', borderBottomWidth: 1, borderRadius: 8 }}></View>
+          <GoogleButton  />
+          <FacebookButton />
+        </View>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+export const SignUpScreen = ({ route }) => {
+  return(
+    <SafeAreaView>
+      <View style={{paddingHorizontal: 20, paddingVertical: 50, position: 'relative'}}>
+        <View style={{ padding: 20 }}>
+          <Text style={{ marginBottom: 5, fontSize: 35, color: '#000' }}>Create Account</Text>
+          <Text style={{ marginBottom: 30, fontSize: 15, color: '#797979' }}>Yo, Welcome</Text>
+          <TextInput style = {styles.input}
+            underlineColorAndroid = "transparent"
+            placeholder = "Email"
+            placeholderTextColor = "#080808"
+            autoCapitalize = "none"
+          />
+          <TextInput style = {styles.input}
+            secureTextEntry={true}
+            underlineColorAndroid = "transparent"
+            placeholder = "Password"
+            placeholderTextColor = "#080808"
+            autoCapitalize = "none"
+          />
+          <TextInput style = {styles.input}
+            secureTextEntry={true}
+            underlineColorAndroid = "transparent"
+            placeholder = "Repeat Password"
+            placeholderTextColor = "#080808"
+            autoCapitalize = "none"
+          />
+          <SignUpActionButton />
+          <View style={{ marginVertical: 40, width: '100%', height: 1 ,borderBottomColor: '#C3BBBB', borderBottomWidth: 1, borderRadius: 8 }}></View>
+          <GoogleButton  />
+          <FacebookButton />
+        </View>
+      </View>
+    </SafeAreaView>
   )
 }
 
@@ -271,14 +309,26 @@ export const AuthScreen = () => {
       color: '#797979',
       fontWeight: '500',
       marginTop: 20,
-      fontSize: 20,
+      fontSize: 15,
     },
     authButtons:{
+      padding: 20,
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
       justifyContent: 'space-evenly',
       width: '100%',
       position: 'absolute',
       bottom: 35
-    }
+    },
+    input: {
+      marginVertical: 20,
+      height: 60,
+      borderColor: '#2196F3',
+      color: '#242222',
+      fontWeight: '500',
+      fontSize: 14,
+      borderWidth: 1,
+      borderRadius: 8,
+      paddingHorizontal: 20
+    },
   });

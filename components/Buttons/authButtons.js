@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Button, StyleSheet, TouchableHighlight, Text } from "react-native";
+import GoogleIcon from '../../assets/images/google.svg';
+import FacebookIcon from '../../assets/images/facebook.svg';
 
 export const LoginButton = ({ onPress, title }) => (
     <TouchableHighlight onPress={onPress} style={styles.appButtonContainerLogin}>
@@ -12,6 +14,36 @@ export const SignUpButton = ({ onPress, title }) => (
       <Text style={styles.appButtonTextSignUp}>Sign Up</Text>
     </TouchableHighlight>
 );
+
+export const LoginActionButton = () => (
+    <TouchableHighlight style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+      <Text style={styles.appButtonTextLogin}>Log In</Text>
+    </TouchableHighlight>
+);
+
+export const SignUpActionButton = () => (
+    <TouchableHighlight style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+      <Text style={styles.appButtonTextLogin}>Sign me Up</Text>
+    </TouchableHighlight>
+);
+
+export const GoogleButton = () => (
+    <TouchableHighlight style={ [styles.appButtonContainerSignUp, { marginBottom: 20, backgroundColor: '#FFE0E0' }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', position: 'relative' }}>
+            <GoogleIcon style={{ height: 20, width: 20, position: 'absolute', left: -10 }} />
+            <Text style={styles.OauthButtonGoogle}>Continue with Google</Text>
+        </View>
+    </TouchableHighlight>
+)
+
+export const FacebookButton = () => (
+    <TouchableHighlight style={ [styles.appButtonContainerSignUp, { backgroundColor: '#D2E3FC' }] }>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', position: 'relative' }}>
+            <FacebookIcon style={{ height: 20, width: 20, position: 'absolute', left: -10 }} />
+            <Text style={styles.OauthButtonFacebook}>Continue with Facebook</Text>
+        </View>
+    </TouchableHighlight>
+)
 
 const styles = StyleSheet.create({
     // ...
@@ -42,5 +74,17 @@ const styles = StyleSheet.create({
         fontWeight: "normal",
         alignSelf: "center",
         textTransform: "uppercase"
-      }
+    },
+    OauthButtonGoogle: {
+        fontSize: 15,
+        color: "#000000",
+        fontWeight: "normal",
+        alignSelf: "center"
+    },
+    OauthButtonFacebook: {
+        fontSize: 15,
+        color: "#000000",
+        fontWeight: "normal",
+        alignSelf: "center",
+    }
   });

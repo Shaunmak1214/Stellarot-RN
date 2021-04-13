@@ -11,6 +11,7 @@ export default function content( props ) {
     const [spaceXData, setSpaceXData] = useState([])
     const [nasaData, setNasaData] = useState([])
     const [otherData, setOtherData] = useState([])
+    const [pages, setPages] = useState(0);
     var spaceXKeywords = ['SpaceX', 'spacex', 'Falcon 9', 'Starlink', 'Star Link', 'Elon Musk', "ElonMusk", "Elon"]
 
     useEffect(() => {
@@ -41,68 +42,24 @@ export default function content( props ) {
 
     },[])
 
-    // const Sticky = () => {
-
-    //     const [allTab, setAllTab] = useState(false)
-    //     const [spaceXTab, setSpaceXTab] = useState(false)
-    //     const [NasaTab, setNasaTab] = useState(false)
-    //     const [otherTab, setOtherTab] = useState(false)
-    
-    //     const setAll = () => {
-    //         setAllTab(true)
-    //         setSpaceXTab(false)
-    //         setNasaTab(false)
-    //         setOtherTab(false)
-    //     }
-    //     const setSpaceX = () => {
-    //         setAllTab(false)
-    //         setSpaceXTab(true)
-    //         setNasaTab(false)
-    //         setOtherTab(false)
-    //     }
-    //     const setNasa = () => {
-    //         setAllTab(false)
-    //         setSpaceXTab(false)
-    //         setNasaTab(true)
-    //         setOtherTab(false)
-    //     }
-    //     const setOther = () => {
-    //         setAllTab(false)
-    //         setSpaceXTab(false)
-    //         setNasaTab(false)
-    //         setOtherTab(true)
-    //     }
-
-    //     return(
-    //         <View style={styles.sticky}>
-    //             <TouchableOpacity 
-    //                 onPress={ setAll }
-    //                 style={ allTab ? styles.optionSelected : styles.option }
-    //             >
-    //                 <Text style={styles.optionText}>All</Text>
-    //             </TouchableOpacity>
-
-    //             <TouchableOpacity onPress={ setSpaceX } style={[styles.option , spaceXTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
-    //                 <Text style={styles.optionText}>Space X</Text>
-    //             </TouchableOpacity>
-
-    //             <TouchableOpacity onPress={ setNasa } style={[styles.option , NasaTab ? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
-    //                 <Text style={styles.optionText}>Nasa</Text>
-    //             </TouchableOpacity>
-
-    //             <TouchableOpacity onPress={ setOther } style={[styles.option , otherTab? {borderColor: '#00B2FF' } : {borderColor: '#EDF5FD'}]}>
-    //                 <Text style={styles.optionText}>Others</Text>
-    //             </TouchableOpacity>
-    //         </View>
-    //     )
-    // }
-
     const NewsList = () => {
 
         const [allTab, setAllTab] = useState(true)
         const [spaceXTab, setSpaceXTab] = useState(false)
         const [NasaTab, setNasaTab] = useState(false)
         const [otherTab, setOtherTab] = useState(false)
+
+        loadMoreAllTab = () => {
+            setPages( pages + 20 )
+            console.log(`pages increments ${pages}`)
+            axios.get(`https://stellarot.herokuapp.com/v1/snanews/${pages}/20`)
+            .then((res) => {
+                console.log(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
 
         const Sticky = () => {
         
@@ -186,6 +143,8 @@ export default function content( props ) {
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
                         contentContainerStyle={styles.flatList}
+                        onEndReached={loadMoreAllTab}
+                        onEndReachedThreshold={0}
                     />
                 </>
                 ) 

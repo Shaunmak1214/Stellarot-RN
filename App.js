@@ -1,10 +1,14 @@
 import React from 'react';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+
+import auth from '@react-native-firebase/auth';
+import {AuthContext, AuthProvider} from './AuthProvider';
+
 import HomeIcon from './assets/images/homenav.svg';
 import SearchIcon from './assets/images/searchnav.svg';
 import NotificationIcon from './assets/images/bellnav.svg';
@@ -38,13 +42,37 @@ const NotificationStackScreen = () => (
   </NotificationStack.Navigator>
 )
 
-const ProfileStackScreen = () => (
-  <ProfileStack.Navigator>
-    <ProfileStack.Screen options={{headerShown: false}} name="Profile" component={AuthScreen} />
-    <ProfileStack.Screen options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
-    <ProfileStack.Screen options={{headerShown: false}} name="SignUpScreen" component={SignUpScreen} />
-  </ProfileStack.Navigator>
-)
+const ProfileStackScreen = () => {
+
+  const {user, setUser} = useContext(AuthContext);
+  const [initializing, setInitializing] = useState(true);
+
+  const onAuthStateChanged = (user) => {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+  
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, {});
+
+  if (initializing) return null;
+
+  return(
+    <ProfileStack.Navigator>
+      {user ? 
+        <ProfileStack.Screen options={{headerShown: false}} name="LoggedInProfile" component={ProfileScreen} />
+       : 
+        <>
+          <ProfileStack.Screen options={{headerShown: false}} name="Profile" component={AuthScreen} />
+          <ProfileStack.Screen options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
+          <ProfileStack.Screen options={{headerShown: false}} name="SignUpScreen" component={SignUpScreen} />
+        </>
+      }
+    </ProfileStack.Navigator>
+  )
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -68,48 +96,50 @@ export default function App() {
   }), [fonts];
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        tabBarOptions={
-          {
-            activeTintColor: '#00B2FF',
-            inactiveTintColor: 'gray',
-            showLabel: false,
-            style: { height: 60, borderRadius: 0, backgroundColor: 'rgba(255, 255, 255, 0.85)'}
-          }
-        }
-        showLabel = {false}
-        screenOptions={({ route }) => ({
-          tabBarIcon: () => {
-            if (route.name === 'Home') {
-              return <HomeIcon />
-            } else if (route.name === 'Search') {
-              return <SearchIcon />
-            } else if (route.name === 'Notification') {
-              return <NotificationIcon />
-            } else if (route.name === 'Profile') {
-              return <ProfileIcon />
+    <AuthProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          tabBarOptions={
+            {
+              activeTintColor: '#00B2FF',
+              inactiveTintColor: 'gray',
+              showLabel: false,
+              style: { height: 60, borderRadius: 0, backgroundColor: 'rgba(255, 255, 255, 0.85)'}
             }
-          },
-        })}
-      >
-        <Tab.Screen name="Home"
-          component={
-          HomeStackScreen
-        } />
-        <Tab.Screen name="Search" component={
-          SearchStackScreen
-        } />
-        <Tab.Screen name="Notification" 
-          options={{tabBarBadge: 999,}}
-          component={
-          NotificationStackScreen
-        } />
-        <Tab.Screen name="Profile" component={
-          ProfileStackScreen
-        } />
-      </Tab.Navigator>
-    </NavigationContainer>
+          }
+          showLabel = {false}
+          screenOptions={({ route }) => ({
+            tabBarIcon: () => {
+              if (route.name === 'Home') {
+                return <HomeIcon />
+              } else if (route.name === 'Search') {
+                return <SearchIcon />
+              } else if (route.name === 'Notification') {
+                return <NotificationIcon />
+              } else if (route.name === 'Profile') {
+                return <ProfileIcon />
+              }
+            },
+          })}
+        >
+          <Tab.Screen name="Home"
+            component={
+            HomeStackScreen
+          } />
+          <Tab.Screen name="Search" component={
+            SearchStackScreen
+          } />
+          <Tab.Screen name="Notification" 
+            options={{tabBarBadge: 999,}}
+            component={
+            NotificationStackScreen
+          } />
+          <Tab.Screen name="Profile" component={
+            ProfileStackScreen
+          } />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 

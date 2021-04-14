@@ -15,14 +15,20 @@ export const SignUpButton = ({ onPress, title }) => (
     </TouchableHighlight>
 );
 
-export const LoginActionButton = () => (
-    <TouchableHighlight style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+export const LogOutButton = ({ onPress }) => (
+    <TouchableHighlight onPress={onPress} style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+      <Text style={styles.appButtonTextLogin}>Log Out</Text>
+    </TouchableHighlight>
+);
+
+export const LoginActionButton = ({ onPress }) => (
+    <TouchableHighlight onPress={onPress} style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
       <Text style={styles.appButtonTextLogin}>Log In</Text>
     </TouchableHighlight>
 );
 
-export const SignUpActionButton = () => (
-    <TouchableHighlight style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+export const SignUpActionButton = ({ onPress }) => (
+    <TouchableHighlight onPress={onPress} style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
       <Text style={styles.appButtonTextLogin}>Sign me Up</Text>
     </TouchableHighlight>
 );

@@ -1,13 +1,15 @@
 import React from 'react';
-import { useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, Alert, TextInput, FlatList, } from 'react-native';
+import { useState, useEffect, useContext } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, FlatList, Platform} from 'react-native';
 import moment from "moment";
 import * as Font from 'expo-font';
+import { AuthContext } from '../AuthProvider';
+
 import Header from '../components/Header';
 import NuaDaily from '../components/Daily';
 import Content from '../components/Content';
 import Potd from '../components/Potd';
-import { LoginButton, SignUpButton, GoogleButton, FacebookButton, LoginActionButton, SignUpActionButton } from '../components/Buttons/authButtons';
+import { LoginButton, LogOutButton, SignUpButton, GoogleButton, FacebookButton, LoginActionButton, SignUpActionButton } from '../components/Buttons/authButtons';
 import OuterSpaceIcon from '../assets/images/outer-space.svg';
 
 export const HomeScreen = ({ navigation }) => {
@@ -124,12 +126,18 @@ export const SearchScreen = () => {
   }
   
 export const ProfileScreen = () => {
-    return(
-      <View style={styles.container}>
-        <Header />
-        <Text style={styles.tryText}>Profile Screen</Text>
-      </View>
-    )
+
+  const {user, logout} = useContext(AuthContext);
+  const onPress = () => {
+    logout();
+  }
+
+  return(
+    <View style={styles.container}>
+      <LogOutButton onPress={onPress} />
+      <Text style={styles.tryText}>Profile Screen Logged In !</Text>
+    </View>
+  )
 }
 
 export const AuthScreen = ({ navigation }) => {
@@ -161,6 +169,14 @@ export const AuthScreen = ({ navigation }) => {
 }
 
 export const LoginScreen = () => {
+
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const { login } = useContext(AuthContext);
+  const onPress = () => {
+    login(email, password)
+  }
+
   return(
     <SafeAreaView>
       <View style={{paddingHorizontal: 20, paddingVertical: 50, position: 'relative'}}>
@@ -172,6 +188,7 @@ export const LoginScreen = () => {
             placeholder = "Email"
             placeholderTextColor = "#080808"
             autoCapitalize = "none"
+            onChangeText={email => setEmail(email)}
           />
           <TextInput style = {styles.input}
             secureTextEntry={true}
@@ -179,11 +196,16 @@ export const LoginScreen = () => {
             placeholder = "Password"
             placeholderTextColor = "#080808"
             autoCapitalize = "none"
+            onChangeText={password => setPassword(password)}
           />
-          <LoginActionButton />
-          <View style={{ marginVertical: 40, width: '100%', height: 1 ,borderBottomColor: '#C3BBBB', borderBottomWidth: 1, borderRadius: 8 }}></View>
-          <GoogleButton  />
-          <FacebookButton />
+          <LoginActionButton onPress={onPress} />
+          {Platform.OS === 'android' ? (
+            <>
+            <View style={{ marginVertical: 40, width: '100%', height: 1 ,borderBottomColor: '#C3BBBB', borderBottomWidth: 1, borderRadius: 8 }}></View>
+            <GoogleButton  />
+            <FacebookButton />
+            </>
+          ) : null}
         </View>
       </View>
     </SafeAreaView>
@@ -191,6 +213,15 @@ export const LoginScreen = () => {
 }
 
 export const SignUpScreen = ({ route }) => {
+
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const { register } = useContext(AuthContext);
+
+  const onPress = () => {
+    register(email, password)
+  }
+
   return(
     <SafeAreaView>
       <View style={{paddingHorizontal: 20, paddingVertical: 50, position: 'relative'}}>
@@ -202,6 +233,7 @@ export const SignUpScreen = ({ route }) => {
             placeholder = "Email"
             placeholderTextColor = "#080808"
             autoCapitalize = "none"
+            onChangeText={email => setEmail(email)}
           />
           <TextInput style = {styles.input}
             secureTextEntry={true}
@@ -209,6 +241,7 @@ export const SignUpScreen = ({ route }) => {
             placeholder = "Password"
             placeholderTextColor = "#080808"
             autoCapitalize = "none"
+            onChangeText={password => setPassword(password)}
           />
           <TextInput style = {styles.input}
             secureTextEntry={true}
@@ -217,10 +250,14 @@ export const SignUpScreen = ({ route }) => {
             placeholderTextColor = "#080808"
             autoCapitalize = "none"
           />
-          <SignUpActionButton />
-          <View style={{ marginVertical: 40, width: '100%', height: 1 ,borderBottomColor: '#C3BBBB', borderBottomWidth: 1, borderRadius: 8 }}></View>
-          <GoogleButton  />
-          <FacebookButton />
+          <SignUpActionButton onPress={onPress} />
+          {Platform.OS === 'android' ? (
+            <>
+            <View style={{ marginVertical: 40, width: '100%', height: 1 ,borderBottomColor: '#C3BBBB', borderBottomWidth: 1, borderRadius: 8 }}></View>
+            <GoogleButton  />
+            <FacebookButton />
+            </>
+          ) : null}
         </View>
       </View>
     </SafeAreaView>

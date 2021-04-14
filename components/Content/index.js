@@ -1,46 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, Image, TouchableOpacity,  ActivityIndicator} from 'react-native';
 import axios from 'axios';
 import moment from "moment";
 import styles from './style';
 
 export default function content( props ) {
 
-    const [data, setData] = useState([])
-    const [spaceXData, setSpaceXData] = useState([])
-    const [nasaData, setNasaData] = useState([])
-    const [otherData, setOtherData] = useState([])
-    const [pages, setPages] = useState(0);
+    
     var spaceXKeywords = ['SpaceX', 'spacex', 'Falcon 9', 'Starlink', 'Star Link', 'Elon Musk', "ElonMusk", "Elon"]
-
-    useEffect(() => {
-
-        axios.get(`https://stellarot.herokuapp.com/v1/snanews/10/20`)
-        .then((res) => {
-            setData(res.data)
-            var spaceXArr = []
-            var NasaArr = []
-            var OtherArr = []
-            res.data.forEach(element => {
-                if(element.title.includes('SpaceX') || element.title.includes('Starlink') || element.summary.includes('SpaceX') || element.summary.includes('Starlink')){
-                    spaceXArr.push(element)
-                }else if(element.title.includes('NASA') || element.summary.includes('NASA') || element.newsSite.includes('NASA')){
-                    NasaArr.push(element)
-                }else{
-                    OtherArr.push(element)
-                }
-                
-            });
-            setSpaceXData(spaceXArr)
-            setNasaData(NasaArr)
-            setOtherData(OtherArr)
-        })
-        .catch((err) => {
-            console.log(`error calling API ${err}`)
-        })
-
-    },[])
 
     const NewsList = () => {
 
@@ -48,18 +16,85 @@ export default function content( props ) {
         const [spaceXTab, setSpaceXTab] = useState(false)
         const [NasaTab, setNasaTab] = useState(false)
         const [otherTab, setOtherTab] = useState(false)
+        const [loading, setLoading] = useState(false);
 
-        loadMoreAllTab = () => {
-            setPages( pages + 20 )
+        const [data, setData] = useState([])
+        const [spaceXData, setSpaceXData] = useState([])
+        const [nasaData, setNasaData] = useState([])
+        const [otherData, setOtherData] = useState([])
+        const [pages, setPages] = useState(31);
+
+        useEffect(() => {
+
+            axios.get(`https://stellarot.herokuapp.com/v1/snanews/10/20`)
+            .then((res) => {
+                setData(res.data)
+                var spaceXArr = []
+                var NasaArr = []
+                var OtherArr = []
+                res.data.forEach(element => {
+                    if(element.title.includes('SpaceX') || element.title.includes('Starlink') || element.summary.includes('SpaceX') || element.summary.includes('Starlink')){
+                        spaceXArr.push(element)
+                    }else if(element.title.includes('NASA') || element.summary.includes('NASA') || element.newsSite.includes('NASA')){
+                        NasaArr.push(element)
+                    }else{
+                        OtherArr.push(element)
+                    }
+                    
+                });
+                setSpaceXData(spaceXArr)
+                setNasaData(NasaArr)
+                setOtherData(OtherArr)
+            })
+            .catch((err) => {
+                console.log(`error calling API ${err}`)
+            })
+    
+        },[])
+
+        const loadMoreAllTab = () => {
+            setLoading(true)
+            console.log('loadin more')
+            setPages( pages + 22 )
             console.log(`pages increments ${pages}`)
             axios.get(`https://stellarot.herokuapp.com/v1/snanews/${pages}/20`)
             .then((res) => {
-                console.log(res.data)
+                setData([...data, ...res.data])
+                var spaceXArr = []
+                var NasaArr = []
+                var OtherArr = []
+                res.data.forEach(element => {
+                    if(element.title.includes('SpaceX') || element.title.includes('Starlink') || element.summary.includes('SpaceX') || element.summary.includes('Starlink')){
+                        spaceXArr.push(element)
+                    }else if(element.title.includes('NASA') || element.summary.includes('NASA') || element.newsSite.includes('NASA')){
+                        NasaArr.push(element)
+                    }else{
+                        OtherArr.push(element)
+                    }
+                    
+                });
+                setSpaceXData([...spaceXData, ...spaceXArr])
+                setNasaData([...nasaData, ...NasaArr])
+                setOtherData([...otherData, ...OtherArr])
+                setLoading(false)
             })
             .catch((err) => {
                 console.log(err)
             })
         }
+
+        const renderFooter = () => {
+            return (
+                // Footer View with Loader
+                <View style={styles.footer}>
+                {loading ? (
+                    <ActivityIndicator
+                    color="#00B2FF"
+                    style={{margin: 15}} />
+                ) : null}
+                </View>
+            );
+        };
 
         const Sticky = () => {
         
@@ -120,7 +155,7 @@ export default function content( props ) {
                         source={{ uri: `${imageUrl}` }}
                     />
                     <View style={styles.detailsContainer}>
-                        <Text style={ [styles.title, {fontFamily: 'Poppins'}]}>{title}</Text>
+                        <Text style={ [styles.title, {fontFamily: 'Poppins', color: '#000', fontSize: 14}]}>{title}</Text>
                         <View style={ styles.bottomInfo }>
                             <Text style={styles.author}>{author}</Text>
                             <Text style={styles.publication}>{moment(publication).format("MM-DD-YYYY")}</Text>
@@ -144,7 +179,8 @@ export default function content( props ) {
                         keyExtractor={item => item.id}
                         contentContainerStyle={styles.flatList}
                         onEndReached={loadMoreAllTab}
-                        onEndReachedThreshold={0}
+                        onEndReachedThreshold={0.5}
+                        ListFooterComponent={renderFooter}
                     />
                 </>
                 ) 

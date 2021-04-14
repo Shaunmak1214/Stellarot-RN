@@ -1,36 +1,61 @@
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, Alert, TextInput, FlatList, } from 'react-native';
 import moment from "moment";
+import * as Font from 'expo-font';
 import Header from '../components/Header';
 import NuaDaily from '../components/Daily';
 import Content from '../components/Content';
 import Potd from '../components/Potd';
 import { LoginButton, SignUpButton, GoogleButton, FacebookButton, LoginActionButton, SignUpActionButton } from '../components/Buttons/authButtons';
-
 import OuterSpaceIcon from '../assets/images/outer-space.svg';
 
-// const ScreenContainer = ({ children }) => (
-//   <View style={styles.container}>{children}</View>
-// );
-
 export const HomeScreen = ({ navigation }) => {
+
+  const fonts = {
+    'Quicksand': require('../assets/fonts/Quicksand-Regular.ttf'),
+    'Poppins': require('../assets/fonts/Poppins-Regular.ttf')
+  }
+  
+  useEffect(() => {
+    (async () => {
+        try {
+            await Font.loadAsync(fonts);
+        } catch (err) {
+            console.log(err);
+        }
+  
+    })();
+  }), [fonts];
 
   const onOpen = (title, author, publication, imageUrl, summary) => {
     navigation.push('Details', { title: title, author: author, publication: publication, imageUrl: imageUrl, summary: summary })
   };
 
+  const VirtualizedList = ({children}) => {
+    return (
+      <FlatList
+          data={[]}
+          keyExtractor={() => "key"}
+          renderItem={null}
+          ListHeaderComponent={
+              <>{children}</>
+          }
+      />
+    )
+  }
+
   return (
     <>
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <VirtualizedList>
         <View style={styles.container}>
           <Header />
           <NuaDaily modalize={onOpen} style={styles.nuadaily} />
           <Potd />
           <Content modalize={onOpen} />
         </View>
-      </ScrollView>
+      </VirtualizedList>
       {/* <Modalize 
         snapPoint={650} 
         modalTopOffset={10}
@@ -68,7 +93,7 @@ export const DetailsScreen = ({ route }) => {
       source={{ uri: `${data.imageUrl}` }}
     />
     <View style={{position: 'absolute', top: 225, paddingTop: 5, paddingHorizontal: 20, borderRadius: 15, zIndex: 1000, backgroundColor: '#F6F2F2'}}>
-      <Text style={styles.modalTitle}>{data.title}</Text>
+      <Text style={[styles.modalTitle, {fontFamily: 'Quicksand'}]}>{data.title}</Text>
       <View style={styles.detailsBar}>
         <Text style={styles.modalAuthor}>{data.author}</Text>
         <Text style={styles.modalPublication}>{moment(data.publication).format("MM-DD-YYYY")}</Text>

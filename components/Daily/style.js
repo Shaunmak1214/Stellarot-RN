@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
     marginTop: -20
   },
   PrimaryText:{
-    fontSize: 25,
-    marginBottom: 20
+    fontSize: 28,
+    marginBottom: 20,
+    color: '#000'
   },
   flatList:{
     paddingVertical: 20,
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 20,
     fontSize: 18,
+    color: '#000'
   },
   name: {
     fontSize: 15

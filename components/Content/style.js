@@ -88,7 +88,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '500',
         color: '#797979',
-    }
+    },
+    footer: {
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
 });
 
 export default styles;

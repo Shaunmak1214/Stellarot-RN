@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "632307321665",
+    "project_id": "stellarot-8dc4a",
+    "storage_bucket": "stellarot-8dc4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632307321665:android:f08389dba397186993efc0",
+        "android_client_info": {
+          "package_name": "com.shaunmak1214.nua"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632307321665-9tnvvnh86c50vnqeg400jgpiin3a1v3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKgagbYrvaG7-5uEK-q76dz2MzSqorUxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632307321665-9tnvvnh86c50vnqeg400jgpiin3a1v3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

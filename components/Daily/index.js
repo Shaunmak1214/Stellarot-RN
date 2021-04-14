@@ -1,18 +1,20 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {View, Text, FlatList, Image, ImageBackground, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import moment from "moment";
 import styles from './style';
 import Dot from '../../assets/images/dot.svg';
-import AnimatedLoader from "react-native-animated-loader";
+/* import AnimatedLoader from "react-native-animated-loader"; */
 import ImageBlurLoading from 'react-native-image-blur-loading'
 
 import * as Font from 'expo-font';
 
 const nuaDaily = ( props ) => {
 
-    const [fontLoaded, setFontLoaded] = useState(false);
+    const [data, setData] = useState([])
+    const [loaded, setLoad] = useState(false)
+
     const fonts = {
       'Quicksand': require('../../assets/fonts/Quicksand-Regular.ttf'),
       'Poppins': require('../../assets/fonts/Poppins-Regular.ttf')
@@ -22,8 +24,6 @@ const nuaDaily = ( props ) => {
         (async () => {
             try {
                 await Font.loadAsync(fonts);
-                setFontLoaded(true);
-                console.log('fontloaded')
             } catch (err) {
                 console.log(err);
             }
@@ -31,8 +31,6 @@ const nuaDaily = ( props ) => {
         })();
     }), [fonts];
 
-    const [data, setData] = useState([])
-    const [loaded, setLoad] = useState(false)
     useEffect(() => {
 
         axios.get(`https://stellarot.herokuapp.com/v1/snanews/0/10`)
@@ -52,10 +50,13 @@ const nuaDaily = ( props ) => {
             <TouchableOpacity onPress={()=>props.modalize(title, author, publication, imageUrl, summary)}>
                 <ImageBlurLoading
                     withIndicator
-                    thumbnailSource={{ uri: 'https://picsum.photos/id/1/50/50' }}
                     source={{ uri: `${imageUrl}` }}
                     style={{width: 260, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
                 />
+                {/* <Image
+                    style={{width: 260, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
+                    source={{ uri: `${imageUrl}` }}
+                /> */}
                 <Text style={ [styles.title, {fontFamily: 'Poppins'}]}>{title}</Text>
                 <View style={styles.bottomBar}>
                     <Text style={styles.author}>{author}</Text>
@@ -78,7 +79,7 @@ const nuaDaily = ( props ) => {
         
     };
 
-    const AppLoading  = () => {
+    /* const AppLoading  = () => {
         return(
             <AnimatedLoader
                 visible={true}
@@ -89,16 +90,16 @@ const nuaDaily = ( props ) => {
             >
             </AnimatedLoader>
         )
-    }
+    } */
 
-    if (!loaded) {
+    /* if (!loaded) {
         return <AppLoading />;
-    } else {
+    } else { */
         return (
             <View style={styles.container}>
                 <View style={styles.containerTitle}>
                     <Dot style={styles.dot} />
-                    <Text style={ [styles.PrimaryText , {fontFamily: 'Quicksand'}]}>NUA Daily</Text>
+                    <Text style={ [styles.PrimaryText , {fontFamily: 'Quicksand', fontWeight: '600'}]}>NUA Daily</Text>
                 </View>
                 <FlatList
                     showsHorizontalScrollIndicator={false}
@@ -110,7 +111,7 @@ const nuaDaily = ( props ) => {
                 />
             </View>
         )
-    }
+    /* } */
 }
 
 export default nuaDaily;

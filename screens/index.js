@@ -271,10 +271,6 @@ export const SignUpScreen = ({ route }) => {
       alignItems: 'center',
       justifyContent: 'flex-start',
     },
-  /*   container: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-    }, */
     nuadaily: {
       marginTop: 200
     },
@@ -393,4 +389,12 @@ export const SignUpScreen = ({ route }) => {
       borderRadius: 8,
       paddingHorizontal: 20
     },
+    ripple:{
+      backgroundColor: "#000000",
+      borderRadius: 8,
+      paddingVertical: 15,
+      paddingHorizontal: 50,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
   });

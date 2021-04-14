@@ -1,36 +1,78 @@
 import React from 'react';
 import { View, Button, StyleSheet, TouchableHighlight, Text } from "react-native";
+import Ripple from 'react-native-material-ripple';
+
 import GoogleIcon from '../../assets/images/google.svg';
 import FacebookIcon from '../../assets/images/facebook.svg';
 
 export const LoginButton = ({ onPress, title }) => (
-    <TouchableHighlight onPress={onPress} style={styles.appButtonContainerLogin}>
+    <Ripple 
+        onPress={onPress} 
+        style={styles.appButtonContainerLogin}
+        rippleColor='#00B2FF'
+        rippleOpacity={0.55}
+        rippleDuration={1000}
+        rippleSize={1000}
+        rippleCentered={false}
+    >
       <Text style={styles.appButtonTextLogin}>Log In</Text>
-    </TouchableHighlight>
+    </Ripple>
 );
 
 export const SignUpButton = ({ onPress, title }) => (
-    <TouchableHighlight onPress={onPress} style={styles.appButtonContainerSignUp}>
+    <Ripple 
+        onPress={onPress} 
+        style={styles.appButtonContainerSignUp}
+        rippleColor='#00B2FF'
+        rippleOpacity={0.55}
+        rippleDuration={1000}
+        rippleSize={1000}
+        rippleCentered={false}
+    >
       <Text style={styles.appButtonTextSignUp}>Sign Up</Text>
-    </TouchableHighlight>
+    </Ripple>
 );
 
 export const LogOutButton = ({ onPress }) => (
-    <TouchableHighlight onPress={onPress} style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+    <Ripple 
+        onPress={onPress} 
+        style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }
+        rippleColor='#00B2FF'
+        rippleOpacity={0.55}
+        rippleDuration={1000}
+        rippleSize={1000}
+        rippleCentered={false}
+    >
       <Text style={styles.appButtonTextLogin}>Log Out</Text>
-    </TouchableHighlight>
+    </Ripple>
 );
 
 export const LoginActionButton = ({ onPress }) => (
-    <TouchableHighlight onPress={onPress} style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+    <Ripple 
+        onPress={onPress} 
+        style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }
+        rippleColor='#00B2FF'
+        rippleOpacity={0.55}
+        rippleDuration={1000}
+        rippleSize={1000}
+        rippleCentered={false}
+    >
       <Text style={styles.appButtonTextLogin}>Log In</Text>
-    </TouchableHighlight>
+    </Ripple>
 );
 
 export const SignUpActionButton = ({ onPress }) => (
-    <TouchableHighlight onPress={onPress} style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }>
+    <Ripple 
+        onPress={onPress} 
+        style={ [styles.appButtonContainerLogin, { marginTop: 20 }] }
+        rippleColor='#00B2FF'
+        rippleOpacity={0.55}
+        rippleDuration={1000}
+        rippleSize={1000}
+        rippleCentered={false}
+    >
       <Text style={styles.appButtonTextLogin}>Sign me Up</Text>
-    </TouchableHighlight>
+    </Ripple>
 );
 
 export const GoogleButton = () => (

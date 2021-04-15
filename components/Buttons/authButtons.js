@@ -75,8 +75,8 @@ export const SignUpActionButton = ({ onPress }) => (
     </Ripple>
 );
 
-export const GoogleButton = () => (
-    <TouchableHighlight style={ [styles.appButtonContainerSignUp, { marginBottom: 20, backgroundColor: '#FFE0E0' }]}>
+export const GoogleButton = ({ onPress }) => (
+    <TouchableHighlight onPress={onPress} style={ [styles.appButtonContainerSignUp, { marginBottom: 20, backgroundColor: '#FFE0E0' }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', position: 'relative' }}>
             <GoogleIcon style={{ height: 20, width: 20, position: 'absolute', left: -10 }} />
             <Text style={styles.OauthButtonGoogle}>Continue with Google</Text>

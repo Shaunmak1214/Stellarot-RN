@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "632307321665-scuffc0ag2e0d8eairjhg5pfd30tenb1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shaunmak1214.nua",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "632307321665-9tnvvnh86c50vnqeg400jgpiin3a1v3b.apps.googleusercontent.com",
           "client_type": 3
         }

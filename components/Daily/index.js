@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import moment from "moment";
 import styles from './style';
@@ -92,9 +92,17 @@ const nuaDaily = ( props ) => {
         )
     } */
 
-    /* if (!loaded) {
-        return <AppLoading />;
-    } else { */
+    if (!loaded) {
+        return (
+            <View style={[ styles.container , {flex: 1, justifyContent: "center", padding: 10, width: '100%'} ]} >
+                <ActivityIndicator 
+                    size="large" 
+                    color='#00B2FF'
+                    style={{ width: '100%', paddingHorizontal: 160, paddingVertical: 200 }}
+                />
+            </View>
+        );
+    } else {
         return (
             <View style={styles.container}>
                 <View style={styles.containerTitle}>
@@ -111,7 +119,7 @@ const nuaDaily = ( props ) => {
                 />
             </View>
         )
-    /* } */
+    }
 }
 
 export default nuaDaily;

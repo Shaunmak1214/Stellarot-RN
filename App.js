@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import auth from '@react-native-firebase/auth';
 import {AuthContext, AuthProvider} from './AuthProvider';
@@ -49,6 +50,7 @@ const ProfileStackScreen = () => {
 
   const onAuthStateChanged = (user) => {
     setUser(user);
+    console.log(user)
     if (initializing) setInitializing(false);
   }
   
@@ -92,6 +94,10 @@ export default function App() {
         console.log(err);
       }
 
+      GoogleSignin.configure({
+        webClientId: '632307321665-9tnvvnh86c50vnqeg400jgpiin3a1v3b.apps.googleusercontent.com',
+      });
+
     })();
   }), [fonts];
 
@@ -130,7 +136,7 @@ export default function App() {
             SearchStackScreen
           } />
           <Tab.Screen name="Notification" 
-            options={{tabBarBadge: 999,}}
+            // options={{tabBarBadge: 999,}}
             component={
             NotificationStackScreen
           } />

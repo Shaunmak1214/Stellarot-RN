@@ -86,6 +86,22 @@ export const HomeScreen = ({ navigation }) => {
 
 export const DetailsScreen = ({ route }) => {
 
+  const fonts = {
+    'Quicksand': require('../assets/fonts/Quicksand-Regular.ttf'),
+    'Poppins': require('../assets/fonts/Poppins-Regular.ttf')
+  }
+  
+  useEffect(() => {
+    (async () => {
+        try {
+            await Font.loadAsync(fonts);
+        } catch (err) {
+            console.log(err);
+        }
+  
+    })();
+  }), [fonts];
+
   let data = route.params
 
   return(
@@ -172,9 +188,12 @@ export const LoginScreen = () => {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const { login } = useContext(AuthContext);
+  const { login, googleLogin } = useContext(AuthContext);
   const onPress = () => {
     login(email, password)
+  }
+  const googleOnPress = () => {
+    googleLogin();
   }
 
   return(
@@ -202,7 +221,7 @@ export const LoginScreen = () => {
           {Platform.OS === 'android' ? (
             <>
             <View style={{ marginVertical: 40, width: '100%', height: 1 ,borderBottomColor: '#C3BBBB', borderBottomWidth: 1, borderRadius: 8 }}></View>
-            <GoogleButton  />
+            <GoogleButton onPress={googleOnPress} />
             <FacebookButton />
             </>
           ) : null}
@@ -283,7 +302,8 @@ export const SignUpScreen = ({ route }) => {
       fontSize: 25,
       marginBottom: 20,
       marginTop: 20,
-      fontWeight: '700'
+      fontWeight: '700',
+      color: '#000'
     },
     detailsBar:{
       padding: 5,

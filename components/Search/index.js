@@ -95,7 +95,9 @@ export default function searchList(props){
         )
     }else{
         return(
-            <Text style={ [styles.title, {fontFamily: 'Poppins', color: '#000', fontSize: 14}]}>Nothing Found</Text>
+            <View style={styles.notfound} > 
+                <Text style={ [styles.title, {fontFamily: 'Poppins', color: '#787878', fontSize: 12}]}>Nothing Found</Text>
+            </View>
         )
     }
 }

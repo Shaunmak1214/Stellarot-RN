@@ -95,6 +95,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
     },
+    notfound: {
+        padding: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    }
 });
 
 export default styles;

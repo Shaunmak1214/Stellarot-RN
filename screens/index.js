@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, FlatList, Platform} from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import moment from "moment";
 import * as Font from 'expo-font';
 import { AuthContext } from '../AuthProvider';
@@ -9,6 +10,7 @@ import Header from '../components/Header';
 import NuaDaily from '../components/Daily';
 import Content from '../components/Content';
 import Potd from '../components/Potd';
+import SearchList from '../components/Search';
 import { LoginButton, LogOutButton, SignUpButton, GoogleButton, FacebookButton, LoginActionButton, SignUpActionButton } from '../components/Buttons/authButtons';
 import OuterSpaceIcon from '../assets/images/outer-space.svg';
 
@@ -58,27 +60,6 @@ export const HomeScreen = ({ navigation }) => {
           <Content modalize={onOpen} />
         </View>
       </VirtualizedList>
-      {/* <Modalize 
-        snapPoint={650} 
-        modalTopOffset={10}
-        ref={modalizeRef} 
-        style={{ width:'100%', alignItems:'center', justifyContent: 'center', padding: 20, bottom: 50, position:'absolute' }}
-      >
-        <View style={{padding: 20}}>
-          <Image
-            style={{width: 350, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
-            source={{ uri: `${imageUrl}` }}
-          />
-          <Text style={styles.modalTitle}>{title}</Text>
-
-          <View style={styles.detailsBar}>
-            <Text style={styles.modalAuthor}>{author}</Text>
-            <Text style={styles.modalPublication}>{moment(publication).format("MM-DD-YYYY")}</Text>
-          </View>
-
-          <Text style={styles.modalSummary}>{summary}</Text>
-        </View>
-      </Modalize> */}
     </SafeAreaView>
     </>
   )
@@ -105,7 +86,7 @@ export const DetailsScreen = ({ route }) => {
   let data = route.params
 
   return(
-  <View style={{padding: 0, position: 'relative'}}>
+  <View style={{padding: 0, position: 'relative', backgroundColor: '#FFFFFF'}}>
     <Image
       style={{position: 'absolute', top: 0, width: '100%', height: 250, zIndex: 1000}}
       source={{ uri: `${data.imageUrl}` }}
@@ -132,14 +113,31 @@ export const NotificationScreen = () => {
     )
   }
   
-export const SearchScreen = () => {
+export const SearchScreen = ({ navigation }) => {
+
+    const [search, setSearch] = useState("");
+
+    const updateSearch = (search) => {
+      setSearch({ search })
+    }
+
+    const onOpen = (title, author, publication, imageUrl, summary) => {
+      navigation.push('Details', { title: title, author: author, publication: publication, imageUrl: imageUrl, summary: summary })
+    };
+
     return(
-      <View style={styles.container}>
-        <Header />
-        <Text style={styles.tryText}>Search Screen</Text>
+      <View style={{width: '100%'}}>
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={updateSearch}
+          value={search}
+          style={{ width: '100%' }}
+          lightTheme={true}
+        />
+        <SearchList modalize={onOpen} search={search} />
       </View>
     )
-  }
+}
   
 export const ProfileScreen = () => {
 
@@ -286,7 +284,7 @@ export const SignUpScreen = ({ route }) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#EAEAEA',
+      backgroundColor: '#FFFFFF',
       alignItems: 'center',
       justifyContent: 'flex-start',
     },

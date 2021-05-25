@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F6F6F6',
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginHorizontal: 16,

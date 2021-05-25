@@ -34,6 +34,7 @@ const HomeStackScreen = () => (
 const SearchStackScreen = () => (
   <SearchStack.Navigator>
     <SearchStack.Screen name="Search" component={SearchScreen} />
+    <HomeStack.Screen name="Details" component={DetailsScreen} />
   </SearchStack.Navigator>
 )
 
@@ -152,7 +153,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EAEAEA',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'flex-start',
   },

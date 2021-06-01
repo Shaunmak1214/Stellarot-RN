@@ -6,8 +6,9 @@ const styles = StyleSheet.create({
     zIndex: 100,
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     paddingVertical: 20,
   },
   logo: {

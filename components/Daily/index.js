@@ -98,7 +98,7 @@ const nuaDaily = ( props ) => {
                 <ActivityIndicator 
                     size="large" 
                     color='#00B2FF'
-                    style={{ width: '100%', paddingHorizontal: 160, paddingVertical: 200 }}
+                    style={{ width: '100%', paddingHorizontal: 160, paddingVertical: 157 }}
                 />
             </View>
         );

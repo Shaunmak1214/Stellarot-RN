@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRef, useState, useEffect, useContext } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from "@react-navigation/stack";
@@ -10,7 +10,10 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {AuthContext, AuthProvider} from './AuthProvider';
 
-import HomeIcon from './assets/images/home-fill.svg';
+import Icon from 'react-native-vector-icons/Ionicons';
+import FaIcon from 'react-native-vector-icons/FontAwesome';
+import CustomIcons from './assets/custom_icons';
+import HomeIcon from './assets/compiled_svgs/home_line.js';
 import SearchIcon from './assets/images/search-line.svg';
 import NotificationIcon from './assets/images/notification-line.svg';
 import ProfileIcon from './assets/images/account-circle-line.svg';
@@ -77,14 +80,14 @@ const ProfileStackScreen = () => {
   )
 }
 
-const Tab = createBottomTabNavigator();
-
 export default function App() {
 
   const [loaded, setLoaded] = useState(false);
+  const [tabSelected, setTabSelected] = useState("Home");
   const fonts = {
     'Quicksand': require('./assets/fonts/Quicksand-Regular.ttf'),
   }
+  const Tab = createBottomTabNavigator();
 
   useEffect(() => {
     (async () => {
@@ -106,6 +109,7 @@ export default function App() {
     <AuthProvider>
       <NavigationContainer>
         <Tab.Navigator
+          onPress={ console.log('pressed') }
           tabBarOptions={
             {
               activeTintColor: '#00B2FF',
@@ -118,129 +122,71 @@ export default function App() {
           screenOptions={({ route }) => ({
             tabBarIcon: () => {
               if (route.name === 'Home') {
-                return <HomeIcon />
+                if(tabSelected === 'Home'){
+                  return <Icon name="ios-home" size={25} color="#000000" />
+                }else{
+                  return <Icon name="ios-home-outline" size={25} color="#646464" />
+                }
               } else if (route.name === 'Search') {
-                return <SearchIcon />
+                if(tabSelected === 'Search'){
+                  return <Icon name="search-sharp" size={25} color="#000000" />
+                }else{
+                  return <Icon name="search-outline" size={25} color="#646464" />
+                }
               } else if (route.name === 'Notification') {
-                return <NotificationIcon />
+                if(tabSelected === 'Notification'){
+                  return <Icon name="ios-notifications" size={25} color="#000000" />
+                }else{
+                  return <Icon name="ios-notifications-outline" size={25} color="#646464" />
+                }
               } else if (route.name === 'Profile') {
-                return <ProfileIcon />
+                if(tabSelected === 'Profile'){
+                  return <FaIcon name="user" size={23} color="#000000" />
+                }else{
+                  return <FaIcon name="user-o" size={23} color="#646464" />
+                }
               }
             },
           })}
         >
-          <Tab.Screen name="Home"
-            component={
-            HomeStackScreen
-          } />
-          <Tab.Screen name="Search" component={
-            SearchStackScreen
-          } />
-          <Tab.Screen name="Notification" 
-            // options={{tabBarBadge: 999,}}
-            component={
-            NotificationStackScreen
-          } />
-          <Tab.Screen name="Profile" component={
-            ProfileStackScreen
-          } />
+          <Tab.Screen 
+            name="Home"
+            component={HomeStackScreen} 
+            listeners={({ navigation, route }) => ({
+              tabPress: e => {
+                setTabSelected("Home")
+              },
+            })}
+          />
+          <Tab.Screen 
+            name="Search" 
+            component={SearchStackScreen} 
+            listeners={({ navigation, route }) => ({
+              tabPress: e => {
+                setTabSelected("Search")
+              },
+            })}
+          />
+          <Tab.Screen 
+            name="Notification" 
+            component={NotificationStackScreen}
+            listeners={({ navigation, route }) => ({
+              tabPress: e => {
+                setTabSelected("Notification")
+              },
+            })}
+          />
+          <Tab.Screen 
+            name="Profile" 
+            component={ProfileStackScreen}
+            listeners={({ navigation, route }) => ({
+              tabPress: e => {
+                setTabSelected("Profile")
+              },
+            })}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-/*   container: {
-    flex: 1,
-    paddingTop: StatusBar.currentHeight,
-  }, */
-  nuadaily: {
-    marginTop: 200
-  },
-  bottomNavTab:{
-    position: 'absolute',
-    bottom: 50,
-    zIndex: 1000
-  },
-  modalTitle:{
-    fontSize: 25,
-    marginBottom: 20,
-    marginTop: 20,
-    fontWeight: '700'
-  },
-  detailsBar:{
-    padding: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-  },
-  modalAuthor:{
-    color: '#797979',
-    fontWeight: '500',
-    fontSize: 13
-  },
-  modalPublication:{
-    color: '#797979',
-    fontWeight: '500',
-    fontSize: 13
-  },
-  modalSummary:{
-    marginTop: 20,
-    fontSize: 18,
-    padding: 5
-  },
-  tryText:{
-    position: 'absolute',
-    fontSize: 18,
-    bottom: 60
-  },
-  //for testing purposes
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
-});

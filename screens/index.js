@@ -107,7 +107,6 @@ export const DetailsScreen = ({ route }) => {
 export const NotificationScreen = () => {
     return(
       <View style={styles.container}>
-        <Header />
         <Text style={styles.tryText}>Notification Screen</Text>
       </View>
     )
@@ -287,6 +286,7 @@ export const SignUpScreen = ({ route }) => {
       backgroundColor: '#FFFFFF',
       alignItems: 'center',
       justifyContent: 'flex-start',
+      width: '100%',
     },
     bottomNavTab:{
       position: 'absolute',

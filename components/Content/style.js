@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flatList:{
         flexDirection: 'column',
         flexGrow: 1,
-        width: '100%',
+        width: 'auto',
         alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center'
@@ -69,23 +69,30 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     detailsContainer: {
-        width: '50%',
+        width: '65%',
         height: 'auto',
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
     },
     bottomInfo: {
-        marginTop: 20,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    title: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#000',
+        minHeight: 70,
+    },
     author: {
-        fontSize: 12,
+        fontSize: 9,
         fontWeight: '500',
         color: '#797979',
     },
     publication: {
-        fontSize: 12,
+        fontSize: 9,
         fontWeight: '500',
         color: '#797979',
     },

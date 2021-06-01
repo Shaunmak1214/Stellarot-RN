@@ -3,19 +3,14 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    position: 'absolute',
-    top: 0,
     zIndex: 100,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     width: '100%',
     paddingHorizontal: 20,
-    paddingTop: 40,
-    paddingBottom: 20
+    paddingVertical: 20,
   },
   logo: {
-    width: 150,
-    height: 60,
     resizeMode: 'contain',
   },
   menu: {

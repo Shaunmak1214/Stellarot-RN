@@ -150,12 +150,14 @@ export default function content( props ) {
         const Item = ({ title, author, publication, imageUrl, summary }) => (
             <TouchableOpacity onPress={()=>props.modalize(title, author, publication, imageUrl, summary)}>
                 <View style={styles.item}>
-                    <Image
-                        style={{width: '45%' , height: 100,  zIndex: 1000, borderRadius: 8}}
-                        source={{ uri: `${imageUrl}` }}
-                    />
+                    <View style={{ width: '35%', maxHeight: 95 }} >
+                        <Image
+                            style={{width: '100%' , height: '100%',  zIndex: 1000, borderRadius: 8}}
+                            source={{ uri: `${imageUrl}` }}
+                        />
+                    </View>
                     <View style={styles.detailsContainer}>
-                        <Text style={ [styles.title, {fontFamily: 'Poppins', color: '#000', fontSize: 14}]}>{title}</Text>
+                        <Text style={ [styles.title, {fontFamily: 'Poppins', color: '#000'}]}>{title}</Text>
                         <View style={ styles.bottomInfo }>
                             <Text style={styles.author}>{author}</Text>
                             <Text style={styles.publication}>{moment(publication).format("MM-DD-YYYY")}</Text>

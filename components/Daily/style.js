@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     width: '100%',
     padding: 20,
-    marginTop: 150,
   },
   containerTitle:{
     flexDirection: 'row',
@@ -20,6 +19,7 @@ const styles = StyleSheet.create({
   },
   PrimaryText:{
     fontSize: 28,
+    fontWeight: '700',
     marginBottom: 20,
     color: '#000'
   },
@@ -35,11 +35,11 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: 'column',
-    backgroundColor: '#F6F6F6',
+    backgroundColor: '#FFFFFF',
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginHorizontal: 16,
-    width: 300,
+    paddingHorizontal: 0,
+    marginHorizontal: 10,
+    width: 200,
     /* shadowOffset:{  width: 10,  height: 10,  },
     shadowColor: 'black',
     shadowOpacity: 1.0, */
@@ -61,8 +61,10 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 20,
-    fontSize: 18,
-    color: '#000'
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#000',
+    minHeight: 70,
   },
   name: {
     fontSize: 15
@@ -70,16 +72,16 @@ const styles = StyleSheet.create({
   bottomBar: {
     flex: 1,
     flexDirection: "row",
-    marginTop: 40,
     justifyContent: 'space-between',
+    paddingHorizontal: 5,
   },
   author:{
-    fontSize: 11,
-    color:'#797979'
+    fontSize: 9,
+    color:'#959595'
   },  
   publication:{
-    fontSize: 11,
-    color:'#797979'
+    fontSize: 9,
+    color:'#959595'
   },
   lottie: {
     width: 150,

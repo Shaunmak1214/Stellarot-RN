@@ -10,10 +10,10 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {AuthContext, AuthProvider} from './AuthProvider';
 
-import HomeIcon from './assets/images/homenav.svg';
-import SearchIcon from './assets/images/searchnav.svg';
-import NotificationIcon from './assets/images/bellnav.svg';
-import ProfileIcon from './assets/images/profilenav.svg';
+import HomeIcon from './assets/images/home-fill.svg';
+import SearchIcon from './assets/images/search-line.svg';
+import NotificationIcon from './assets/images/notification-line.svg';
+import ProfileIcon from './assets/images/account-circle-line.svg';
 import { HomeScreen, DetailsScreen, NotificationScreen, SearchScreen, ProfileScreen, AuthScreen, LoginScreen, SignUpScreen } from './screens'
 
 import * as Font from 'expo-font';
@@ -111,7 +111,7 @@ export default function App() {
               activeTintColor: '#00B2FF',
               inactiveTintColor: 'gray',
               showLabel: false,
-              style: { height: 60, borderRadius: 0, backgroundColor: 'rgba(255, 255, 255, 0.85)'}
+              style: { height: 60, borderRadius: 0}
             }
           }
           showLabel = {false}

@@ -55,7 +55,7 @@ export const HomeScreen = ({ navigation }) => {
       <VirtualizedList>
         <View style={styles.container}>
           <Header />
-          <NuaDaily modalize={onOpen} style={styles.nuadaily} />
+          <NuaDaily modalize={onOpen} />
           <Potd />
           <Content modalize={onOpen} />
         </View>
@@ -91,7 +91,7 @@ export const DetailsScreen = ({ route }) => {
       style={{position: 'absolute', top: 0, width: '100%', height: 250, zIndex: 1000}}
       source={{ uri: `${data.imageUrl}` }}
     />
-    <View style={{position: 'absolute', top: 225, paddingTop: 5, paddingHorizontal: 20, borderRadius: 15, zIndex: 1000, backgroundColor: '#F6F2F2'}}>
+    <View style={{position: 'absolute', top: 225, paddingTop: 5, paddingHorizontal: 20, borderRadius: 15, zIndex: 1000, backgroundColor: '#FFFFFF'}}>
       <Text style={[styles.modalTitle, {fontFamily: 'Quicksand'}]}>{data.title}</Text>
       <View style={styles.detailsBar}>
         <Text style={styles.modalAuthor}>{data.author}</Text>
@@ -287,9 +287,6 @@ export const SignUpScreen = ({ route }) => {
       backgroundColor: '#FFFFFF',
       alignItems: 'center',
       justifyContent: 'flex-start',
-    },
-    nuadaily: {
-      marginTop: 200
     },
     bottomNavTab:{
       position: 'absolute',

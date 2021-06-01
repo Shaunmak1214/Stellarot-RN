@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import moment from "moment";
 import styles from './style';
@@ -51,7 +51,7 @@ const nuaDaily = ( props ) => {
                 <ImageBlurLoading
                     withIndicator
                     source={{ uri: `${imageUrl}` }}
-                    style={{width: 260, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
+                    style={{width: 200, height: 125, zIndex: 1000, borderRadius: 8}}
                 />
                 {/* <Image
                     style={{width: 260, height: 200, zIndex: 1000, borderRadius: 8, marginTop: 10}}
